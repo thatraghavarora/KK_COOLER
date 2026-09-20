@@ -20,7 +20,7 @@ const products = [
   },
 ]
 
-const areas = ['Bihar', 'Rajasthan', 'Uttar Pradesh', 'Madhya Pradesh', 'Lucknow', 'Kanpur', 'Patna', 'Jaipur']
+const areas = ['Jodhpur', 'Jaipur', 'Bikaner', 'Udaipur', 'Ajmer', 'Kota', 'Rajasthan', 'Gujarat']
 
 export default function PedestalFanPage() {
   return (

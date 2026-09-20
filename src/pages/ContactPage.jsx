@@ -148,15 +148,38 @@ export default function ContactPage() {
       {/* Map Section */}
       <section style={{ padding: '0 0 60px' }}>
         <div className="container">
-          <div style={{ borderRadius: '15px', overflow: 'hidden', boxShadow: '0 8px 30px rgba(0,0,0,0.12)' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '15px', marginBottom: '18px' }}>
+            <div>
+              <h3 style={{ fontSize: '1.4rem', fontWeight: 800, color: 'var(--dark)', margin: 0 }}>
+                <i className="fas fa-map-location-dot" style={{ color: 'var(--primary)', marginRight: '8px' }}></i>
+                Factory &amp; Store Location Map
+              </h3>
+              <p style={{ margin: '4px 0 0', color: '#64748b', fontSize: '13.5px' }}>
+                Plot No. 168 / Plot No. 19, Ambika Nagar / Aditya Nagar, Near Dali Bai Circle (Dali Bai Mandir), Masuria / Bhadu Market, Jodhpur, Rajasthan – 342001
+              </p>
+            </div>
+            <a
+              href="https://www.google.com/maps/search/?api=1&query=Plot+No.+168+Ambika+Nagar+Near+Dali+Bai+Circle+Jodhpur+Rajasthan+342001"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn btn-outline"
+              style={{ padding: '9px 18px', fontSize: '13px', display: 'inline-flex', alignItems: 'center', gap: '8px' }}
+            >
+              <i className="fas fa-directions" style={{ color: 'var(--primary)' }}></i>
+              Open in Google Maps / Directions
+            </a>
+          </div>
+
+          <div style={{ borderRadius: '15px', overflow: 'hidden', boxShadow: '0 8px 30px rgba(0,0,0,0.12)', border: '1px solid #e2e8f0' }}>
             <iframe
-              title="KK COOLER JODHPUR Location"
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d114518.2386906!2d81.8258!3d26.7474!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x399afe8d3f5e6b5d%3A0x4a42e9fe3d29abc0!2sFaizabad%2C%20Uttar%20Pradesh!5e0!3m2!1sen!2sin!4v1620000000000!5m2!1sen!2sin"
+              title="KK COOLER JODHPUR - Dali Bai Circle, Jodhpur, Rajasthan"
+              src="https://maps.google.com/maps?q=Plot+No.+168,+Ambika+Nagar,+Near+Dali+Bai+Circle,+Masuria,+Jodhpur,+Rajasthan+342001&t=&z=15&ie=UTF8&iwloc=&output=embed"
               width="100%"
-              height="400"
+              height="420"
               style={{ border: 0, display: 'block' }}
               allowFullScreen=""
               loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
             ></iframe>
           </div>
         </div>

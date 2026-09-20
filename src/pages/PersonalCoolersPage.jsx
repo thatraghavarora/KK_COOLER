@@ -114,11 +114,11 @@ export default function PersonalCoolersPage() {
       <section className="section section-alt">
         <div className="container">
           <div className="section-title">
-            <h2>Personal Coolers Available In</h2>
-            <p>Our personal coolers are available across major cities in Uttar Pradesh and beyond.</p>
+            <h2>Personal Coolers Available Across</h2>
+            <p>Our personal coolers are supplied across Jodhpur, Rajasthan, and neighboring regions.</p>
           </div>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: '12px', justifyContent: 'center' }}>
-            {['Ghaziabad', 'Bihar', 'Rajasthan', 'Uttar Pradesh', 'Lucknow', 'Kanpur', 'Varanasi', 'Gorakhpur', 'Allahabad', 'Bareilly', 'Faizabad', 'Madhya Pradesh', 'Delhi NCR', 'Agra', 'Meerut'].map((city, i) => (
+            {['Jodhpur', 'Jaipur', 'Bikaner', 'Udaipur', 'Ajmer', 'Kota', 'Barmer', 'Pali', 'Nagaur', 'Jaisalmer', 'Rajasthan', 'Gujarat', 'Delhi NCR', 'Madhya Pradesh'].map((city, i) => (
               <span key={i} style={{ background: 'white', border: '1px solid var(--light-gray)', borderRadius: '25px', padding: '7px 18px', fontSize: '13px', color: 'var(--primary)', fontWeight: 500 }}>
                 <i className="fas fa-map-marker-alt" style={{ color: 'var(--accent)', marginRight: '6px', fontSize: '11px' }}></i>{city}
               </span>
