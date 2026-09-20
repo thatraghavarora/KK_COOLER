@@ -26,7 +26,7 @@ export default function Footer() {
             {/* Brand */}
             <div className="footer-brand">
               <div className="logo-text">
-                <span className="brand">KK COOLER {isHindi ? 'जोधपुर' : 'JODHPUR'}</span>
+                <span className="brand">{isHindi ? 'के.के. कूलर जोधपुर' : 'KK COOLER JODHPUR'}</span>
                 <span className="tagline">{isHindi ? 'के.के. एंटरप्राइजेज' : 'K.K. ENTERPRISES'}</span>
               </div>
               <p className="footer-about-text">
@@ -89,7 +89,9 @@ export default function Footer() {
               </div>
               <div className="footer-contact-item">
                 <i className="fab fa-whatsapp" style={{ color: '#25D366' }}></i>
-                <a href="https://wa.me/919351359518?text=Hello%20KK%20COOLER%20JODHPUR,%20I%20want%20to%20enquire" target="_blank" rel="noopener noreferrer" style={{ color: '#86efac', textDecoration: 'none', fontWeight: 600 }}>WhatsApp: +91 9351359518</a>
+                <a href="https://wa.me/919351359518?text=Hello%20KK%20COOLER%20JODHPUR,%20I%20want%20to%20enquire" target="_blank" rel="noopener noreferrer" style={{ color: '#86efac', textDecoration: 'none', fontWeight: 600 }}>
+                  {isHindi ? 'व्हाट्सएप:' : 'WhatsApp:'} +91 9351359518
+                </a>
               </div>
               <div className="footer-contact-item">
                 <i className="fas fa-envelope"></i>
@@ -107,7 +109,7 @@ export default function Footer() {
       <div className="footer-bottom">
         <div className="container">
           <p>
-            &copy; {new Date().getFullYear()} <span>KK COOLER JODHPUR</span>. {t.footer.rights}
+            &copy; {new Date().getFullYear()} <span>{isHindi ? 'के.के. कूलर जोधपुर' : 'KK COOLER JODHPUR'}</span>. {t.footer.rights}
           </p>
         </div>
       </div>

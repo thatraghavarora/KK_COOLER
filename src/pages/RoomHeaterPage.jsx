@@ -2,7 +2,7 @@ import PageBanner from '../components/PageBanner'
 import { Link } from 'react-router-dom'
 import { useLanguage } from '../context/LanguageContext'
 
-const products = [
+const productsEn = [
   {
     name: 'KK COOLER Room Heater 1000W',
     specs: ['Power: 1000W', 'Heating: Quartz', 'Coverage: 120 sq.ft', 'Thermostat Control', 'Tip-Over Safety', 'Instant Heat'],
@@ -21,8 +21,28 @@ const products = [
   },
 ]
 
+const productsHi = [
+  {
+    name: 'के.के. कूलर रूम हीटर 1000W',
+    specs: ['पावर: 1000W', 'हीटिंग तत्व: क्वार्ट्ज', 'कवरेज: 120 वर्ग फीट', 'थर्मोस्टेट कंट्रोल', 'टिप-ओवर सेफ्टी', 'तुरंत गर्माहट'],
+  },
+  {
+    name: 'के.के. कूलर फैन हीटर 2000W',
+    specs: ['पावर: 2000W', 'हीटिंग तत्व: PTC', 'कवरेज: 250 वर्ग फीट', 'फैन-फोर्स्ड हीटिंग', '2-हीट सेटिंग्स', 'कूल ब्लो विकल्प'],
+  },
+  {
+    name: 'के.के. कूलर ऑयल फील्ड हीटर 9-फिन',
+    specs: ['पावर: 2400W', 'प्रकार: ऑयल फील्ड', 'कवरेज: 300 वर्ग फीट', '3-हीट सेटिंग्स', '24 घंटे टाइमर', 'चाइल्ड लॉक सुरक्षा'],
+  },
+  {
+    name: 'के.के. कूलर हैलोजन हीटर 1200W',
+    specs: ['पावर: 1200W', 'प्रकार: हैलोजन', 'कवरेज: 150 वर्ग फीट', 'तुरंत गर्माहट', 'पोर्टेबल एवं हल्का', 'ऊर्जा-कुशल'],
+  },
+]
+
 export default function RoomHeaterPage() {
   const { isHindi, t, getLocalizedPath } = useLanguage()
+  const products = isHindi ? productsHi : productsEn
 
   return (
     <>
@@ -43,7 +63,9 @@ export default function RoomHeaterPage() {
                 <div className="product-card-img" style={{ background: 'linear-gradient(135deg, #c0132a15, #8f0a1d10)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                   <div style={{ textAlign: 'center' }}>
                     <div style={{ fontSize: '52px', color: 'var(--primary)', opacity: 0.8 }}><i className="fas fa-fire"></i></div>
-                    <div style={{ fontSize: '11px', color: 'var(--primary)', fontWeight: 600, marginTop: '8px' }}>ROOM HEATER</div>
+                    <div style={{ fontSize: '11px', color: 'var(--primary)', fontWeight: 600, marginTop: '8px' }}>
+                      {isHindi ? 'रूम हीटर' : 'ROOM HEATER'}
+                    </div>
                   </div>
                 </div>
                 <div className="product-card-body">

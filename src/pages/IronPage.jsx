@@ -2,7 +2,7 @@ import PageBanner from '../components/PageBanner'
 import { Link } from 'react-router-dom'
 import { useLanguage } from '../context/LanguageContext'
 
-const products = [
+const productsEn = [
   {
     name: 'KK COOLER Dry Iron 1000W',
     specs: ['Power: 1000W', 'Type: Dry Iron', 'Soleplate: Non-Stick', 'Temperature: Dial', 'Lightweight: 1.1 kg', 'Indicator Light'],
@@ -21,8 +21,28 @@ const products = [
   },
 ]
 
+const productsHi = [
+  {
+    name: 'के.के. कूलर ड्राई प्रेस 1000W',
+    specs: ['पावर: 1000W', 'प्रकार: ड्राई आयरन', 'सोलप्लेट: नॉन-स्टिक', 'तापमान: रोटरी डायल', 'हल्का वजन: 1.1 किग्रा', 'इंडिकेटर लाइट'],
+  },
+  {
+    name: 'के.के. कूलर स्टीम प्रेस 1400W',
+    specs: ['पावर: 1400W', 'प्रकार: स्टीम आयरन', 'सोलप्लेट: सिरेमिक', 'स्टीम बर्स्ट', 'पानी क्षमता: 250ml', 'सेल्फ-क्लीन'],
+  },
+  {
+    name: 'के.के. कूलर ड्राई प्रेस 750W',
+    specs: ['पावर: 750W', 'प्रकार: ड्राई आयरन', 'सोलप्लेट: टेफ्लॉन', 'तापमान: 5 सेटिंग्स', 'वजन: 0.9 किग्रा', 'आरामदायक हैंडल'],
+  },
+  {
+    name: 'के.के. कूलर ट्रैवल प्रेस 1000W',
+    specs: ['पावर: 1000W', 'ड्यूल वोल्टेज: 110-240V', 'कॉम्पैक्ट व फोल्डेबल', 'स्टीम विकल्प', 'कैरी पाउच', 'ऑटो शट-ऑफ'],
+  },
+]
+
 export default function IronPage() {
   const { isHindi, t, getLocalizedPath } = useLanguage()
+  const products = isHindi ? productsHi : productsEn
 
   return (
     <>
@@ -43,7 +63,9 @@ export default function IronPage() {
                 <div className="product-card-img" style={{ background: 'linear-gradient(135deg, #c0132a15, #e8193a10)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                   <div style={{ textAlign: 'center' }}>
                     <div style={{ fontSize: '52px', color: 'var(--primary)', opacity: 0.8 }}><i className="fas fa-tshirt"></i></div>
-                    <div style={{ fontSize: '11px', color: 'var(--primary)', fontWeight: 600, marginTop: '8px' }}>ELECTRIC IRON</div>
+                    <div style={{ fontSize: '11px', color: 'var(--primary)', fontWeight: 600, marginTop: '8px' }}>
+                      {isHindi ? 'इलेक्ट्रिक प्रेस' : 'ELECTRIC IRON'}
+                    </div>
                   </div>
                 </div>
                 <div className="product-card-body">

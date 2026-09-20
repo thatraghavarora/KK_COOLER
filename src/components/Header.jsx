@@ -42,7 +42,7 @@ export default function Header() {
               style={{ color: '#25D366', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: '6px', fontWeight: 700 }}
             >
               <i className="fab fa-whatsapp"></i>
-              <span>WhatsApp: +91 9351359518</span>
+              <span>{isHindi ? 'व्हाट्सएप: +91 9351359518' : 'WhatsApp: +91 9351359518'}</span>
             </a>
           </div>
 
@@ -121,8 +121,7 @@ export default function Header() {
             {/* Logo */}
             <Link to={getLocalizedPath('/')} className="header-logo">
               <div className="logo-text">
-                <span className="brand">KK COOLER</span>
-
+                <span className="brand">{isHindi ? 'के.के. कूलर जोधपुर' : 'KK COOLER'}</span>
               </div>
             </Link>
 
@@ -170,7 +169,7 @@ export default function Header() {
                     }}
                   >
                     <i className="fab fa-whatsapp" style={{ fontSize: '16px' }}></i>
-                    <span>{t.nav.enquiry}</span>
+                    <span>{isHindi ? 'पूछताछ करें' : 'Enquiry Now'}</span>
                   </a>
                 </li>
               </ul>
@@ -266,7 +265,7 @@ export default function Header() {
               }}
             >
               <i className="fab fa-whatsapp" style={{ fontSize: '20px' }}></i>
-              <span>WhatsApp: +91 9351359518</span>
+              <span>{isHindi ? 'व्हाट्सएप पूछताछ (+91 9351359518)' : 'Enquiry on WhatsApp (+91 9351359518)'}</span>
             </a>
           </li>
         </ul>

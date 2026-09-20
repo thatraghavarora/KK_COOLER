@@ -2,7 +2,7 @@ import PageBanner from '../components/PageBanner'
 import { Link } from 'react-router-dom'
 import { useLanguage } from '../context/LanguageContext'
 
-const products = [
+const productsEn = [
   {
     name: 'KK COOLER Table Fan 300mm',
     specs: ['Blade: 300mm (12")', 'Motor: 50W', 'Speed: 3', 'Tilt: Adjustable', 'Compact & Portable', 'Quiet Operation'],
@@ -21,8 +21,28 @@ const products = [
   },
 ]
 
+const productsHi = [
+  {
+    name: 'के.के. कूलर टेबल पंखा 300mm',
+    specs: ['ब्लेड: 300mm (12")', 'मोटर: 50W', 'स्पीड: 3 सेटिंग्स', 'झुकाव: एडजस्टेबल', 'कॉम्पैक्ट व पोर्टेबल', 'शांत संचालन'],
+  },
+  {
+    name: 'के.के. कूलर वॉल पंखा 400mm',
+    specs: ['ब्लेड: 400mm (16")', 'मोटर: 70W', 'स्पीड: 3 सेटिंग्स', 'दीवार पर लगाने योग्य', 'ऑटो-ऑसिलेशन', 'ISI प्रमाणित'],
+  },
+  {
+    name: 'के.के. कूलर सीलिंग पंखा 1200mm',
+    specs: ['ब्लेड: 1200mm (48")', 'मोटर: 75W', 'स्पीड: 5 सेटिंग्स', 'बिजली बचत', 'एयरोडायनामिक ब्लेड्स', '5-वर्ष की वारंटी'],
+  },
+  {
+    name: 'के.के. कूलर सीलिंग पंखा 1400mm',
+    specs: ['ब्लेड: 1400mm (56")', 'मोटर: 85W', 'स्पीड: 5 सेटिंग्स', 'जंग-रोधी ब्लेड्स', 'तेज एयर डिलीवरी', 'थर्मल ओवरलोड'],
+  },
+]
+
 export default function AllPurposeFansPage() {
   const { isHindi, t, getLocalizedPath } = useLanguage()
+  const products = isHindi ? productsHi : productsEn
 
   return (
     <>
@@ -43,7 +63,9 @@ export default function AllPurposeFansPage() {
                 <div className="product-card-img" style={{ background: 'linear-gradient(135deg, #c0132a15, #e8193a10)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                   <div style={{ textAlign: 'center' }}>
                     <div style={{ fontSize: '52px', color: 'var(--primary)', opacity: 0.8 }}><i className="fas fa-circle-notch"></i></div>
-                    <div style={{ fontSize: '11px', color: 'var(--primary)', fontWeight: 600, marginTop: '8px' }}>ALL PURPOSE FAN</div>
+                    <div style={{ fontSize: '11px', color: 'var(--primary)', fontWeight: 600, marginTop: '8px' }}>
+                      {isHindi ? 'ऑल पर्पस पंखा' : 'ALL PURPOSE FAN'}
+                    </div>
                   </div>
                 </div>
                 <div className="product-card-body">

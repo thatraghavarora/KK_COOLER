@@ -1,12 +1,18 @@
+import { useMemo } from 'react'
 import PageBanner from '../components/PageBanner'
 import { Link } from 'react-router-dom'
 import { useLanguage } from '../context/LanguageContext'
 import { coolersData } from '../data/coolersData'
-
-const personalCoolers = coolersData.filter(c => c.category === 'personal')
+import { getLocalizedCooler } from '../utils/hindiTranslator'
 
 export default function PersonalCoolersPage() {
   const { isHindi, t, getLocalizedPath } = useLanguage()
+
+  const personalCoolers = useMemo(() => {
+    return coolersData
+      .filter(c => c.category === 'personal')
+      .map(c => getLocalizedCooler(c, isHindi))
+  }, [isHindi])
 
   return (
     <>
@@ -168,7 +174,10 @@ export default function PersonalCoolersPage() {
             <p>{isHindi ? 'हमारे पर्सनल कूलर्स जोधपुर, राजस्थान और पश्चिमी भारत के सभी प्रमुख क्षेत्रों में उपलब्ध हैं।' : 'Our personal coolers are supplied across Jodhpur, Rajasthan, and neighboring regions.'}</p>
           </div>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: '12px', justifyContent: 'center' }}>
-            {['Jodhpur', 'Jaipur', 'Bikaner', 'Udaipur', 'Ajmer', 'Kota', 'Barmer', 'Pali', 'Nagaur', 'Jaisalmer', 'Rajasthan', 'Gujarat', 'Delhi NCR', 'Madhya Pradesh'].map((city, i) => (
+            {(isHindi
+              ? ['जोधपुर', 'जयपुर', 'बीकानेर', 'उदयपुर', 'अजमेर', 'कोटा', 'बाड़मेर', 'पाली', 'नागौर', 'जैसलमेर', 'राजस्थान', 'गुजरात', 'दिल्ली एनसीआर', 'मध्य प्रदेश']
+              : ['Jodhpur', 'Jaipur', 'Bikaner', 'Udaipur', 'Ajmer', 'Kota', 'Barmer', 'Pali', 'Nagaur', 'Jaisalmer', 'Rajasthan', 'Gujarat', 'Delhi NCR', 'Madhya Pradesh']
+            ).map((city, i) => (
               <span key={i} style={{ background: 'white', border: '1px solid var(--light-gray)', borderRadius: '25px', padding: '7px 18px', fontSize: '13px', color: 'var(--primary)', fontWeight: 500 }}>
                 <i className="fas fa-map-marker-alt" style={{ color: 'var(--accent)', marginRight: '6px', fontSize: '11px' }}></i>{city}
               </span>

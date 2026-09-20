@@ -3,33 +3,7 @@ import { useParams, Link } from 'react-router-dom'
 import PageBanner from '../components/PageBanner'
 import { useLanguage } from '../context/LanguageContext'
 import { allCoolers, factoryDetails } from '../data/coolersData'
-
-const specsLabelsHi = {
-  'Product Name': 'उत्पाद का नाम',
-  'Product Category': 'उत्पाद श्रेणी',
-  'Model Number': 'मॉडल नंबर',
-  'Cooler Type': 'कूलर का प्रकार',
-  'Cooling Capacity': 'कूलिंग क्षमता',
-  'Tank Capacity': 'पानी की टंकी क्षमता',
-  'Motor & Pump Details': 'मोटर एवं पंप विवरण',
-  'Power Consumption': 'बिजली खपत (Power)',
-  'Fan / Blower Details': 'पंखा / ब्लोअर विवरण',
-  'Body Material': 'बॉडी मटेरियल',
-  'Available Colours': 'उपलब्ध रंग',
-  'Warranty': 'वारंटी',
-  'Air Throw Distance': 'एयर थ्रो दूरी',
-  'Air Delivery (CFM)': 'एयर डिलीवरी (CFM)',
-  'Dimensions (L x W x H)': 'आयाम (लंबाई x चौड़ाई x ऊंचाई)',
-  'Factory / Store Address': 'फैक्ट्री एवं स्टोर का पता',
-  'Factory Email': 'ऑफिशियल ईमेल आईडी',
-  'Factory Contact Number': 'फैक्ट्री संपर्क नंबर',
-  'WhatsApp Number': 'व्हाट्सएप नंबर',
-  'Proprietor': 'प्रोप्राइटर',
-  'Selling Price': 'हमारा विशेष फैक्ट्री भाव',
-  'MRP': 'अधिकतम खुदरा मूल्य (M.R.P.)',
-  'Product Brochure': 'प्रोडक्ट ब्रोशर (PDF)',
-  'Specification Sheet': 'स्पेसिफिकेशन शीट',
-}
+import { getLocalizedCooler, specsLabelsHi } from '../utils/hindiTranslator'
 
 export default function ProductDetailPage() {
   const { id } = useParams()
@@ -37,26 +11,32 @@ export default function ProductDetailPage() {
   const [activeMediaTab, setActiveMediaTab] = useState(0) // 0: front, 1: side, 2: back, 3: video
 
   const cooler = useMemo(() => {
-    return allCoolers.find(c => c.id === id) || allCoolers[0]
-  }, [id])
+    const raw = allCoolers.find(c => c.id === id) || allCoolers[0]
+    return getLocalizedCooler(raw, isHindi)
+  }, [id, isHindi])
 
   const relatedCoolers = useMemo(() => {
-    return allCoolers.filter(c => c.id !== cooler.id && c.category === cooler.category).slice(0, 3)
-  }, [cooler])
+    return allCoolers
+      .filter(c => c.id !== cooler.id && c.category === cooler.category)
+      .slice(0, 3)
+      .map(c => getLocalizedCooler(c, isHindi))
+  }, [cooler, isHindi])
 
   const discountPercent = Math.round(((cooler.mrp - cooler.sellingPrice) / cooler.mrp) * 100)
 
+  const categoryLabel = isHindi
+    ? (cooler.category === 'personal' ? 'पर्सनल कूलर्स' : cooler.category === 'commercial' ? 'कमर्शियल कूलर्स' : 'टावर कूलर्स')
+    : cooler.categoryName
+
   const whatsappMessage = encodeURIComponent(
-    `Hello KK COOLER JODHPUR!\n\nI am interested in:\nProduct: ${cooler.name}\nModel Number: ${cooler.modelNumber}\nCategory: ${cooler.categoryName}\nPrice: ₹${cooler.sellingPrice.toLocaleString('en-IN')}\n\nPlease share the best factory quotation and delivery timeline to my location.`
+    isHindi
+      ? `नमस्ते के.के. कूलर जोधपुर!\n\nमुझे इस मॉडल की जानकारी एवं सर्वोत्तम फैक्ट्री कोटेशन चाहिए:\nउत्पाद: ${cooler.name}\nमॉडल नंबर: ${cooler.modelNumber}\nश्रेणी: ${categoryLabel}\nभाव: ₹${cooler.sellingPrice.toLocaleString('en-IN')}\n\nकृपया डिलीवरी का समय और सर्वोत्तम कोटेशन साझा करें।`
+      : `Hello KK COOLER JODHPUR!\n\nI am interested in:\nProduct: ${cooler.name}\nModel Number: ${cooler.modelNumber}\nCategory: ${cooler.categoryName}\nPrice: ₹${cooler.sellingPrice.toLocaleString('en-IN')}\n\nPlease share the best factory quotation and delivery timeline to my location.`
   )
 
   const handlePrintSpecs = () => {
     window.print()
   }
-
-  const categoryLabel = isHindi
-    ? (cooler.category === 'personal' ? 'पर्सनल कूलर्स' : cooler.category === 'commercial' ? 'कमर्शियल कूलर्स' : 'टावर कूलर्स')
-    : cooler.categoryName
 
   const categoryPath = cooler.category === 'personal'
     ? '/personal-coolers'
@@ -433,7 +413,7 @@ export default function ProductDetailPage() {
                   {isHindi ? 'के.के. एंटरप्राइजेज - फैक्ट्री एवं शोरूम' : 'KK Cooler (K.K. Enterprises) Factory & Showroom'}
                 </div>
                 <div>
-                  {factoryDetails.address}
+                  {isHindi ? 'प्लॉट नं. 168 / 19, अम्बिका नगर / आदित्य नगर, डाली बाई सर्किल के पास (डाली बाई मन्दिर), मसूरिया / भादू मार्केट, जोधपुर, राजस्थान – 342001' : factoryDetails.address}
                 </div>
                 <div style={{ marginTop: '6px', fontSize: '12px', color: '#64748b' }}>
                   {isHindi ? 'प्रोप्राइटर:' : 'Proprietor:'} <strong>{isHindi ? 'श्री कमल अरोड़ा' : factoryDetails.proprietor}</strong> | {isHindi ? 'समय:' : 'Timings:'} 10:00 AM – 7:00 PM
@@ -546,7 +526,7 @@ export default function ProductDetailPage() {
                       {isHindi ? 'फैक्ट्री संपर्क एवं व्हाट्सएप' : 'Factory Contact & WhatsApp'}
                     </td>
                     <td style={{ padding: '14px 24px', color: 'var(--dark)', fontWeight: 500 }}>
-                      +91 {factoryDetails.phone} (WhatsApp Enabled) | {factoryDetails.email}
+                      +91 {factoryDetails.phone} ({isHindi ? 'व्हाट्सएप उपलब्ध' : 'WhatsApp Enabled'}) | {factoryDetails.email}
                     </td>
                   </tr>
                 </tbody>

@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import PageBanner from '../components/PageBanner'
 import { useLanguage } from '../context/LanguageContext'
 import { allCoolers, coolerCategories } from '../data/coolersData'
+import { getLocalizedCooler } from '../utils/hindiTranslator'
 
 export default function AllCoolersPage() {
   const { isHindi, t, getLocalizedPath } = useLanguage()
@@ -10,15 +11,17 @@ export default function AllCoolersPage() {
   const [searchQuery, setSearchQuery] = useState('')
 
   const filteredCoolers = useMemo(() => {
-    return allCoolers.filter(cooler => {
-      const matchesTab = activeTab === 'all' || cooler.category === activeTab
-      const matchesSearch =
-        cooler.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        cooler.capacity.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        cooler.categoryName.toLowerCase().includes(searchQuery.toLowerCase())
-      return matchesTab && matchesSearch
-    })
-  }, [activeTab, searchQuery])
+    return allCoolers
+      .filter(cooler => {
+        const matchesTab = activeTab === 'all' || cooler.category === activeTab
+        const matchesSearch =
+          cooler.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          cooler.capacity.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          cooler.categoryName.toLowerCase().includes(searchQuery.toLowerCase())
+        return matchesTab && matchesSearch
+      })
+      .map(c => getLocalizedCooler(c, isHindi))
+  }, [activeTab, searchQuery, isHindi])
 
   return (
     <>

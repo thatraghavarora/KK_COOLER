@@ -1,12 +1,18 @@
+import { useMemo } from 'react'
 import PageBanner from '../components/PageBanner'
 import { Link } from 'react-router-dom'
 import { useLanguage } from '../context/LanguageContext'
 import { coolersData } from '../data/coolersData'
-
-const commercialCoolers = coolersData.filter(c => c.category === 'commercial')
+import { getLocalizedCooler } from '../utils/hindiTranslator'
 
 export default function CommercialCoolerPage() {
   const { isHindi, t, getLocalizedPath } = useLanguage()
+
+  const commercialCoolers = useMemo(() => {
+    return coolersData
+      .filter(c => c.category === 'commercial')
+      .map(c => getLocalizedCooler(c, isHindi))
+  }, [isHindi])
 
   return (
     <>

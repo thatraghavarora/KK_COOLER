@@ -2,7 +2,7 @@ import PageBanner from '../components/PageBanner'
 import { Link } from 'react-router-dom'
 import { useLanguage } from '../context/LanguageContext'
 
-const products = [
+const productsEn = [
   {
     name: 'KK COOLER Exhaust Fan 150mm',
     specs: ['Blade: 150mm (6")', 'Motor: 20W', 'Speed: 1200 RPM', 'Air Flow: 140 m³/hr', 'For: Bathroom/Kitchen', 'Noise: < 38dB'],
@@ -21,8 +21,28 @@ const products = [
   },
 ]
 
+const productsHi = [
+  {
+    name: 'के.के. कूलर एग्जॉस्ट पंखा 150mm',
+    specs: ['ब्लेड: 150mm (6")', 'मोटर: 20W', 'स्पीड: 1200 RPM', 'एयर फ्लो: 140 m³/घंटा', 'उपयोग: बाथरूम/रसोई', 'शोर: < 38dB शांत'],
+  },
+  {
+    name: 'के.के. कूलर एग्जॉस्ट पंखा 200mm',
+    specs: ['ब्लेड: 200mm (8")', 'मोटर: 30W', 'स्पीड: 1000 RPM', 'एयर फ्लो: 210 m³/घंटा', 'शटर टाइप', 'आसान फिटिंग'],
+  },
+  {
+    name: 'के.के. कूलर एग्जॉस्ट पंखा 250mm',
+    specs: ['ब्लेड: 250mm (10")', 'मोटर: 45W', 'स्पीड: 950 RPM', 'एयर फ्लो: 300 m³/घंटा', 'इंडस्ट्रियल उपयोग', 'मेटल बॉडी'],
+  },
+  {
+    name: 'के.के. कूलर वेंटिलेशन पंखा 300mm',
+    specs: ['ब्लेड: 300mm (12")', 'मोटर: 60W', 'स्पीड: 850 RPM', 'एयर फ्लो: 420 m³/घंटा', 'बड़े स्थानों हेतु', 'धूल-रोधी'],
+  },
+]
+
 export default function ExhaustFanPage() {
   const { isHindi, t, getLocalizedPath } = useLanguage()
+  const products = isHindi ? productsHi : productsEn
 
   return (
     <>
@@ -43,7 +63,9 @@ export default function ExhaustFanPage() {
                 <div className="product-card-img" style={{ background: 'linear-gradient(135deg, #c0132a15, #8f0a1d10)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                   <div style={{ textAlign: 'center' }}>
                     <div style={{ fontSize: '52px', color: 'var(--primary)', opacity: 0.8 }}><i className="fas fa-tachometer-alt"></i></div>
-                    <div style={{ fontSize: '11px', color: 'var(--primary)', fontWeight: 600, marginTop: '8px' }}>EXHAUST FAN</div>
+                    <div style={{ fontSize: '11px', color: 'var(--primary)', fontWeight: 600, marginTop: '8px' }}>
+                      {isHindi ? 'एग्जॉस्ट पंखा' : 'EXHAUST FAN'}
+                    </div>
                   </div>
                 </div>
                 <div className="product-card-body">

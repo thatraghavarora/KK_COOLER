@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, useMemo } from 'react'
 import { Link } from 'react-router-dom'
 import { useLanguage } from '../context/LanguageContext'
 const heroBg = 'https://res.cloudinary.com/t6yv9yib/video/upload/v1789879011/Make_a_second_video_to_acco.mp4'
@@ -6,6 +6,7 @@ import personalCoolerImg from '../assets/perosnal_cooler.png'
 import commercialCoolerImg from '../assets/commerinal_cooler.png'
 import towerCoolerImg from '../assets/tower_cooler.png'
 import { allCoolers, coolerCategories } from '../data/coolersData'
+import { getLocalizedCooler } from '../utils/hindiTranslator'
 
 const featuresEn = [
   { icon: 'fas fa-history', title: '10+ Years Experience', desc: 'Over a decade of excellence in manufacturing heavy-duty desert and plastic coolers in Jodhpur.' },
@@ -81,9 +82,12 @@ export default function HomePage() {
   const { isHindi, t, getLocalizedPath } = useLanguage()
   const [selectedType, setSelectedType] = useState('all')
 
-  const displayedCoolers = selectedType === 'all'
-    ? allCoolers
-    : allCoolers.filter(c => c.category === selectedType)
+  const displayedCoolers = useMemo(() => {
+    const list = selectedType === 'all'
+      ? allCoolers
+      : allCoolers.filter(c => c.category === selectedType)
+    return list.map(c => getLocalizedCooler(c, isHindi))
+  }, [selectedType, isHindi])
 
   const features = isHindi ? featuresHi : featuresEn
   const stats = isHindi ? statsHi : statsEn

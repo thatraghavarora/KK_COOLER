@@ -65,7 +65,9 @@ export default function PedestalFanPage() {
                 <div className="product-card-img" style={{ background: 'linear-gradient(135deg, #c0132a15, #8f0a1d10)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                   <div style={{ textAlign: 'center' }}>
                     <div style={{ fontSize: '52px', color: 'var(--primary)', opacity: 0.8 }}><i className="fas fa-fan"></i></div>
-                    <div style={{ fontSize: '11px', color: 'var(--primary)', fontWeight: 600, marginTop: '8px' }}>PEDESTAL FAN</div>
+                    <div style={{ fontSize: '11px', color: 'var(--primary)', fontWeight: 600, marginTop: '8px' }}>
+                      {isHindi ? 'पैडेस्टल पंखा' : 'PEDESTAL FAN'}
+                    </div>
                   </div>
                 </div>
                 <div className="product-card-body">
@@ -91,7 +93,10 @@ export default function PedestalFanPage() {
             <h2>{isHindi ? 'उपलब्धता क्षेत्र' : 'Available In'}</h2>
           </div>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: '12px', justifyContent: 'center' }}>
-            {areas.map((a, i) => (
+            {(isHindi
+              ? ['जोधपुर', 'जयपुर', 'बीकानेर', 'उदयपुर', 'अजमेर', 'कोटा', 'राजस्थान', 'गुजरात']
+              : ['Jodhpur', 'Jaipur', 'Bikaner', 'Udaipur', 'Ajmer', 'Kota', 'Rajasthan', 'Gujarat']
+            ).map((a, i) => (
               <span key={i} style={{ background: 'white', border: '1px solid var(--light-gray)', borderRadius: '25px', padding: '8px 20px', fontSize: '14px', color: 'var(--primary)', fontWeight: 500 }}>
                 <i className="fas fa-map-marker-alt" style={{ color: 'var(--accent)', marginRight: '7px' }}></i>{a}
               </span>
