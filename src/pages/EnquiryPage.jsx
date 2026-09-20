@@ -14,11 +14,15 @@ export default function EnquiryPage() {
 
   const handleChange = e => setForm({ ...form, [e.target.name]: e.target.value })
 
+  const getWhatsAppUrl = () => {
+    const text = `Hello KK COOLER JODHPUR (Mr. Kamal Arora),%0A%0AI want to make an enquiry from your website:%0A- Name: ${encodeURIComponent(form.name)}%0A- Phone: ${encodeURIComponent(form.phone)}%0A- Email: ${encodeURIComponent(form.email || 'N/A')}%0A- Product: ${encodeURIComponent(form.product)}%0A- Quantity: ${encodeURIComponent(form.quantity || '1')}%0A- Message: ${encodeURIComponent(form.message || 'N/A')}`
+    return `https://wa.me/919351359518?text=${text}`
+  }
+
   const handleSubmit = e => {
     e.preventDefault()
     setSubmitted(true)
-    const text = `Hello KK COOLER JODHPUR,%0A%0AI want to make an enquiry:%0A- Name: ${encodeURIComponent(form.name)}%0A- Phone: ${encodeURIComponent(form.phone)}%0A- Email: ${encodeURIComponent(form.email || 'N/A')}%0A- Product: ${encodeURIComponent(form.product)}%0A- Quantity: ${encodeURIComponent(form.quantity || '1')}%0A- Message: ${encodeURIComponent(form.message || 'N/A')}`
-    window.open(`https://wa.me/919351359518?text=${text}`, '_blank')
+    window.open(getWhatsAppUrl(), '_blank')
   }
 
   return (
@@ -67,7 +71,7 @@ export default function EnquiryPage() {
                   If WhatsApp didn't open automatically, click the button below to connect with us on +91 9351359518.
                 </p>
                 <a
-                  href={`https://wa.me/919351359518?text=Hello%20KK%20COOLER%20JODHPUR,%20I%20am%20enquiring%20about%20${encodeURIComponent(form.product || 'coolers')}`}
+                  href={getWhatsAppUrl()}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="btn btn-primary"

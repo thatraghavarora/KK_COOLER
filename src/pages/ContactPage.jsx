@@ -7,9 +7,16 @@ export default function ContactPage() {
 
   const handleChange = e => setForm({ ...form, [e.target.name]: e.target.value })
 
+  const getWhatsAppUrl = () => {
+    const text = `Hello KK COOLER JODHPUR (Mr. Kamal Arora),%0A%0AI have submitted a contact enquiry via your website:%0A👤 *Name:* ${encodeURIComponent(form.name)}%0A📞 *Phone:* ${encodeURIComponent(form.phone)}%0A✉️ *Email:* ${encodeURIComponent(form.email || 'N/A')}%0A📋 *Subject:* ${encodeURIComponent(form.subject)}%0A💬 *Message:* ${encodeURIComponent(form.message)}%0A%0APlease get in touch with me regarding this.`
+    return `https://wa.me/919351359518?text=${text}`
+  }
+
   const handleSubmit = e => {
     e.preventDefault()
     setSubmitted(true)
+    const url = getWhatsAppUrl()
+    window.open(url, '_blank')
   }
 
   return (
@@ -101,14 +108,36 @@ export default function ContactPage() {
             {/* Contact Form */}
             <div className="contact-form-wrap">
               <h3>Send Us a Message</h3>
+              <p style={{ color: '#64748b', fontSize: '13.5px', marginBottom: '20px' }}>
+                Fill in your details below to send your enquiry directly to our WhatsApp (<strong>+91 9351359518</strong>).
+              </p>
               {submitted ? (
                 <div style={{ textAlign: 'center', padding: '30px 20px' }}>
-                  <div style={{ fontSize: '55px', marginBottom: '18px' }}>✅</div>
-                  <h4 style={{ color: 'var(--primary)', marginBottom: '10px' }}>Message Sent Successfully!</h4>
-                  <p style={{ color: 'var(--text-light)', fontSize: '14px', marginBottom: '20px' }}>
-                    Thank you for contacting us. We will get back to you within 24 hours.
+                  <div style={{ fontSize: '55px', marginBottom: '18px' }}>💬</div>
+                  <h4 style={{ color: 'var(--primary)', marginBottom: '10px' }}>Connecting to WhatsApp...</h4>
+                  <p style={{ color: 'var(--text-light)', fontSize: '14px', marginBottom: '20px', lineHeight: 1.6 }}>
+                    Your message has been prepared for WhatsApp. If WhatsApp didn't open automatically, click the button below to connect with Mr. Kamal Arora on <strong>+91 9351359518</strong>.
                   </p>
-                  <button className="btn btn-primary" onClick={() => setSubmitted(false)}>Send Another Message</button>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', alignItems: 'center' }}>
+                    <a
+                      href={getWhatsAppUrl()}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="btn btn-primary"
+                      style={{ background: '#25D366', borderColor: '#25D366', display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '12px 24px', fontSize: '15px' }}
+                    >
+                      <i className="fab fa-whatsapp" style={{ fontSize: '20px' }}></i>
+                      Open WhatsApp (+91 9351359518)
+                    </a>
+                    <button
+                      type="button"
+                      className="btn btn-outline"
+                      style={{ fontSize: '13px', padding: '8px 18px' }}
+                      onClick={() => setSubmitted(false)}
+                    >
+                      Send Another Message
+                    </button>
+                  </div>
                 </div>
               ) : (
                 <form onSubmit={handleSubmit}>
@@ -134,9 +163,25 @@ export default function ContactPage() {
                     <label htmlFor="ct-message">Message *</label>
                     <textarea id="ct-message" name="message" required placeholder="Write your message here..." value={form.message} onChange={handleChange}></textarea>
                   </div>
-                  <button type="submit" className="btn btn-primary" style={{ width: '100%', padding: '14px', fontSize: '15px' }}>
-                    <i className="fas fa-paper-plane" style={{ marginRight: '8px' }}></i>
-                    Send Message
+                  <button
+                    type="submit"
+                    className="btn btn-primary"
+                    style={{
+                      width: '100%',
+                      padding: '14px',
+                      fontSize: '15px',
+                      background: '#25D366',
+                      borderColor: '#25D366',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      gap: '8px',
+                      fontWeight: 700,
+                      boxShadow: '0 4px 15px rgba(37, 211, 102, 0.3)'
+                    }}
+                  >
+                    <i className="fab fa-whatsapp" style={{ fontSize: '19px' }}></i>
+                    Send Message Directly via WhatsApp
                   </button>
                 </form>
               )}
