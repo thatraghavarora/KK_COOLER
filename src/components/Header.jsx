@@ -1,10 +1,12 @@
 import { useState, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
+import { useLanguage } from '../context/LanguageContext'
 
 export default function Header() {
   const [scrolled, setScrolled] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
   const { pathname } = useLocation()
+  const { isHindi, t, getLocalizedPath, switchLanguage } = useLanguage()
 
   useEffect(() => {
     const handler = () => setScrolled(window.scrollY > 60)
@@ -15,6 +17,11 @@ export default function Header() {
   useEffect(() => {
     setMobileOpen(false)
   }, [pathname])
+
+  const isActive = (path) => {
+    const localized = getLocalizedPath(path)
+    return pathname === localized || (path === '/' && pathname === '/in')
+  }
 
   return (
     <>
@@ -38,6 +45,58 @@ export default function Header() {
               <span>WhatsApp: +91 9351359518</span>
             </a>
           </div>
+
+          {/* Language Switcher */}
+          <div
+            className="language-switcher"
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              background: 'rgba(255,255,255,0.18)',
+              borderRadius: '20px',
+              padding: '2px',
+              border: '1px solid rgba(255,255,255,0.3)',
+              marginLeft: 'auto'
+            }}
+          >
+            <button
+              type="button"
+              onClick={() => switchLanguage('en')}
+              style={{
+                border: 'none',
+                background: !isHindi ? '#ffffff' : 'transparent',
+                color: !isHindi ? 'var(--primary)' : 'rgba(255,255,255,0.9)',
+                padding: '3px 10px',
+                borderRadius: '16px',
+                cursor: 'pointer',
+                fontWeight: 700,
+                fontSize: '11px',
+                transition: 'all 0.2s ease'
+              }}
+              title="Switch to English"
+            >
+              EN
+            </button>
+            <button
+              type="button"
+              onClick={() => switchLanguage('hi')}
+              style={{
+                border: 'none',
+                background: isHindi ? '#ffffff' : 'transparent',
+                color: isHindi ? 'var(--primary)' : 'rgba(255,255,255,0.9)',
+                padding: '3px 10px',
+                borderRadius: '16px',
+                cursor: 'pointer',
+                fontWeight: 700,
+                fontSize: '11px',
+                transition: 'all 0.2s ease'
+              }}
+              title="हिंदी में देखें (/in)"
+            >
+              हिंदी
+            </button>
+          </div>
+
           <div className="top-social">
             <a href="#" aria-label="Facebook">
               <i className="fab fa-facebook-f"></i>
@@ -60,35 +119,36 @@ export default function Header() {
         <div className="container">
           <div className="header-inner">
             {/* Logo */}
-            <Link to="/" className="header-logo">
+            <Link to={getLocalizedPath('/')} className="header-logo">
               <div className="logo-text">
-                <span className="brand">KK COOLER </span>
+                <span className="brand">KK COOLER</span>
+
               </div>
             </Link>
 
             {/* Desktop Nav */}
             <nav className="desktop-nav">
               <ul>
-                <li className={pathname === '/' ? 'active' : ''}>
-                  <Link to="/">Home</Link>
+                <li className={isActive('/') ? 'active' : ''}>
+                  <Link to={getLocalizedPath('/')}>{t.nav.home}</Link>
                 </li>
-                <li className={pathname === '/all-coolers' || pathname === '/coolers' ? 'active' : ''}>
-                  <Link to="/all-coolers">All Coolers</Link>
+                <li className={isActive('/all-coolers') ? 'active' : ''}>
+                  <Link to={getLocalizedPath('/all-coolers')}>{t.nav.allCoolers}</Link>
                 </li>
-                <li className={pathname === '/personal-coolers' ? 'active' : ''}>
-                  <Link to="/personal-coolers">Personal Coolers</Link>
+                <li className={isActive('/personal-coolers') ? 'active' : ''}>
+                  <Link to={getLocalizedPath('/personal-coolers')}>{t.nav.personalCoolers}</Link>
                 </li>
-                <li className={pathname === '/commercial-cooler' ? 'active' : ''}>
-                  <Link to="/commercial-cooler">Commercial Coolers</Link>
+                <li className={isActive('/commercial-cooler') ? 'active' : ''}>
+                  <Link to={getLocalizedPath('/commercial-cooler')}>{t.nav.commercialCoolers}</Link>
                 </li>
-                <li className={pathname === '/tower-coolers' ? 'active' : ''}>
-                  <Link to="/tower-coolers">Tower Coolers</Link>
+                <li className={isActive('/tower-coolers') ? 'active' : ''}>
+                  <Link to={getLocalizedPath('/tower-coolers')}>{t.nav.towerCoolers}</Link>
                 </li>
-                <li className={pathname === '/about-us' ? 'active' : ''}>
-                  <Link to="/about-us">About Us</Link>
+                <li className={isActive('/about-us') ? 'active' : ''}>
+                  <Link to={getLocalizedPath('/about-us')}>{t.nav.about}</Link>
                 </li>
-                <li className={pathname === '/contact-us' ? 'active' : ''}>
-                  <Link to="/contact-us">Contact Us</Link>
+                <li className={isActive('/contact-us') ? 'active' : ''}>
+                  <Link to={getLocalizedPath('/contact-us')}>{t.nav.contact}</Link>
                 </li>
                 <li className="shop-btn">
                   <a
@@ -110,7 +170,7 @@ export default function Header() {
                     }}
                   >
                     <i className="fab fa-whatsapp" style={{ fontSize: '16px' }}></i>
-                    <span>Enquiry Now</span>
+                    <span>{t.nav.enquiry}</span>
                   </a>
                 </li>
               </ul>
@@ -136,14 +196,56 @@ export default function Header() {
         <button className="mobile-close" onClick={() => setMobileOpen(false)}>
           <i className="fas fa-times"></i>
         </button>
+
+        {/* Mobile Language Switcher */}
+        <div style={{ padding: '15px 20px 5px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: '1px solid #e2e8f0' }}>
+          <span style={{ fontSize: '13px', fontWeight: 600, color: '#64748b' }}>
+            {isHindi ? 'भाषा चुनें / Language:' : 'Language / भाषा:'}
+          </span>
+          <div style={{ display: 'inline-flex', background: '#f1f5f9', borderRadius: '20px', padding: '2px' }}>
+            <button
+              type="button"
+              onClick={() => { switchLanguage('en'); setMobileOpen(false) }}
+              style={{
+                border: 'none',
+                background: !isHindi ? 'var(--primary)' : 'transparent',
+                color: !isHindi ? '#ffffff' : '#475569',
+                padding: '4px 12px',
+                borderRadius: '16px',
+                cursor: 'pointer',
+                fontWeight: 700,
+                fontSize: '12px'
+              }}
+            >
+              English
+            </button>
+            <button
+              type="button"
+              onClick={() => { switchLanguage('hi'); setMobileOpen(false) }}
+              style={{
+                border: 'none',
+                background: isHindi ? 'var(--primary)' : 'transparent',
+                color: isHindi ? '#ffffff' : '#475569',
+                padding: '4px 12px',
+                borderRadius: '16px',
+                cursor: 'pointer',
+                fontWeight: 700,
+                fontSize: '12px'
+              }}
+            >
+              हिंदी
+            </button>
+          </div>
+        </div>
+
         <ul>
-          <li><Link to="/" onClick={() => setMobileOpen(false)}><span>Home</span></Link></li>
-          <li><Link to="/all-coolers" onClick={() => setMobileOpen(false)}><span>All Coolers</span></Link></li>
-          <li><Link to="/personal-coolers" onClick={() => setMobileOpen(false)}><span>Personal Coolers</span></Link></li>
-          <li><Link to="/commercial-cooler" onClick={() => setMobileOpen(false)}><span>Commercial Coolers</span></Link></li>
-          <li><Link to="/tower-coolers" onClick={() => setMobileOpen(false)}><span>Tower Coolers</span></Link></li>
-          <li><Link to="/about-us" onClick={() => setMobileOpen(false)}><span>About Us</span></Link></li>
-          <li><Link to="/contact-us" onClick={() => setMobileOpen(false)}><span>Contact Us</span></Link></li>
+          <li><Link to={getLocalizedPath('/')} onClick={() => setMobileOpen(false)}><span>{t.nav.home}</span></Link></li>
+          <li><Link to={getLocalizedPath('/all-coolers')} onClick={() => setMobileOpen(false)}><span>{t.nav.allCoolers}</span></Link></li>
+          <li><Link to={getLocalizedPath('/personal-coolers')} onClick={() => setMobileOpen(false)}><span>{t.nav.personalCoolers}</span></Link></li>
+          <li><Link to={getLocalizedPath('/commercial-cooler')} onClick={() => setMobileOpen(false)}><span>{t.nav.commercialCoolers}</span></Link></li>
+          <li><Link to={getLocalizedPath('/tower-coolers')} onClick={() => setMobileOpen(false)}><span>{t.nav.towerCoolers}</span></Link></li>
+          <li><Link to={getLocalizedPath('/about-us')} onClick={() => setMobileOpen(false)}><span>{t.nav.about}</span></Link></li>
+          <li><Link to={getLocalizedPath('/contact-us')} onClick={() => setMobileOpen(false)}><span>{t.nav.contact}</span></Link></li>
           <li>
             <a
               href="https://wa.me/919351359518?text=Hello%20KK%20COOLER%20JODHPUR,%20I%20want%20to%20make%20an%20enquiry"
@@ -164,7 +266,7 @@ export default function Header() {
               }}
             >
               <i className="fab fa-whatsapp" style={{ fontSize: '20px' }}></i>
-              <span>Enquiry on WhatsApp (+91 9351359518)</span>
+              <span>WhatsApp: +91 9351359518</span>
             </a>
           </li>
         </ul>

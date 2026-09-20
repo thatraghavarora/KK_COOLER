@@ -1,5 +1,6 @@
 import PageBanner from '../components/PageBanner'
 import { Link } from 'react-router-dom'
+import { useLanguage } from '../context/LanguageContext'
 
 const products = [
   {
@@ -21,15 +22,20 @@ const products = [
 ]
 
 export default function ExhaustFanPage() {
+  const { isHindi, t, getLocalizedPath } = useLanguage()
+
   return (
     <>
-      <PageBanner title="Exhaust Fan" breadcrumb={[{ label: 'Our Products' }, { label: 'Exhaust Fan' }]} />
+      <PageBanner
+        title={t.nav.exhaustFan}
+        breadcrumb={[{ label: isHindi ? 'होम' : 'Home', path: '/' }, { label: t.nav.exhaustFan }]}
+      />
 
       <section className="section">
         <div className="container">
           <div className="section-title">
-            <h2>Exhaust Fans</h2>
-            <p>High-quality exhaust fans for kitchens, bathrooms, offices, and industrial spaces. Ensure fresh air circulation and remove stale air effectively.</p>
+            <h2>{isHindi ? 'एग्जॉस्ट पंखे' : 'Exhaust Fans'}</h2>
+            <p>{isHindi ? 'रसोई, बाथरूम, कार्यालयों और कारखानों के लिए उच्च गुणवत्ता वाले शक्तिशाली एग्जॉस्ट पंखे।' : 'High-quality exhaust fans for kitchens, bathrooms, offices, and industrial spaces. Ensure fresh air circulation and remove stale air effectively.'}</p>
           </div>
           <div className="product-list-grid">
             {products.map((p, i) => (
@@ -47,7 +53,9 @@ export default function ExhaustFanPage() {
                       <li key={j}><i className="fas fa-check-circle"></i>{s}</li>
                     ))}
                   </ul>
-                  <Link to="/enquiry" className="btn btn-primary" style={{ marginTop: '12px', display: 'inline-block', fontSize: '13px', padding: '9px 22px' }}>Get Quote</Link>
+                  <Link to={getLocalizedPath('/enquiry')} className="btn btn-primary" style={{ marginTop: '12px', display: 'inline-block', fontSize: '13px', padding: '9px 22px' }}>
+                    {isHindi ? 'कोटेशन लें' : 'Get Quote'}
+                  </Link>
                 </div>
               </div>
             ))}
@@ -56,11 +64,11 @@ export default function ExhaustFanPage() {
       </section>
       <section className="cta-section">
         <div className="container">
-          <h2>Improve Air Quality with KK COOLER Exhaust Fans!</h2>
-          <p>ISI certified exhaust fans at best prices. Suitable for all residential and commercial applications.</p>
+          <h2>{isHindi ? 'बेहतरीन हवा हेतु एग्जॉस्ट पंखे लगाएं' : 'Improve Air Quality with KK COOLER Exhaust Fans!'}</h2>
+          <p>{isHindi ? 'सर्वश्रेष्ठ दरों पर मजबूत मेटल और प्लास्टिक एग्जॉस्ट पंखे उपलब्ध हैं।' : 'ISI certified exhaust fans at best prices. Suitable for all residential and commercial applications.'}</p>
           <div className="cta-buttons">
-            <Link to="/enquiry" className="btn btn-outline">Send Enquiry</Link>
-            <Link to="/contact-us" className="btn" style={{ background: 'white', color: '#e84c0d', fontWeight: 700 }}>Contact Us</Link>
+            <Link to={getLocalizedPath('/enquiry')} className="btn btn-outline">{isHindi ? 'पूछताछ करें' : 'Send Enquiry'}</Link>
+            <Link to={getLocalizedPath('/contact-us')} className="btn btn-primary">{isHindi ? 'संपर्क करें' : 'Contact Us'}</Link>
           </div>
         </div>
       </section>

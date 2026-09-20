@@ -1,5 +1,6 @@
 import PageBanner from '../components/PageBanner'
 import { Link } from 'react-router-dom'
+import { useLanguage } from '../context/LanguageContext'
 
 const products = [
   {
@@ -21,15 +22,20 @@ const products = [
 ]
 
 export default function RoomHeaterPage() {
+  const { isHindi, t, getLocalizedPath } = useLanguage()
+
   return (
     <>
-      <PageBanner title="Room Heater" breadcrumb={[{ label: 'Our Products' }, { label: 'Room Heater' }]} />
+      <PageBanner
+        title={t.nav.roomHeater}
+        breadcrumb={[{ label: isHindi ? 'होम' : 'Home', path: '/' }, { label: t.nav.roomHeater }]}
+      />
 
       <section className="section">
         <div className="container">
           <div className="section-title">
-            <h2>Room Heaters</h2>
-            <p>Stay warm through every winter with KK COOLER's efficient and safe room heaters. Available in quartz, fan, oil-filled, and halogen variants.</p>
+            <h2>{isHindi ? 'रूम हीटर्स' : 'Room Heaters'}</h2>
+            <p>{isHindi ? 'सर्दियों में गर्म और सुरक्षित वातावरण के लिए कुशल एवं टिकाऊ रूम हीटर्स।' : "Stay warm through every winter with KK COOLER's efficient and safe room heaters. Available in quartz, fan, oil-filled, and halogen variants."}</p>
           </div>
           <div className="product-list-grid">
             {products.map((p, i) => (
@@ -47,7 +53,9 @@ export default function RoomHeaterPage() {
                       <li key={j}><i className="fas fa-check-circle"></i>{s}</li>
                     ))}
                   </ul>
-                  <Link to="/enquiry" className="btn btn-primary" style={{ marginTop: '12px', display: 'inline-block', fontSize: '13px', padding: '9px 22px' }}>Get Quote</Link>
+                  <Link to={getLocalizedPath('/enquiry')} className="btn btn-primary" style={{ marginTop: '12px', display: 'inline-block', fontSize: '13px', padding: '9px 22px' }}>
+                    {isHindi ? 'कोटेशन लें' : 'Get Quote'}
+                  </Link>
                 </div>
               </div>
             ))}
@@ -56,11 +64,11 @@ export default function RoomHeaterPage() {
       </section>
       <section className="cta-section">
         <div className="container">
-          <h2>Stay Warm This Winter with KK COOLER!</h2>
-          <p>Safe, efficient, and affordable room heaters. Order now before winter arrives.</p>
+          <h2>{isHindi ? 'सर्दियों में पाएं आरामदायक गर्मी' : 'Stay Warm This Winter with KK COOLER!'}</h2>
+          <p>{isHindi ? 'सुरक्षित, किफायती और ऊर्जा-कुशल रूम हीटर्स।' : 'Safe, efficient, and affordable room heaters. Order now before winter arrives.'}</p>
           <div className="cta-buttons">
-            <Link to="/enquiry" className="btn btn-outline">Send Enquiry</Link>
-            <Link to="/contact-us" className="btn" style={{ background: 'white', color: '#e84c0d', fontWeight: 700 }}>Contact Us</Link>
+            <Link to={getLocalizedPath('/enquiry')} className="btn btn-outline">{isHindi ? 'पूछताछ करें' : 'Send Enquiry'}</Link>
+            <Link to={getLocalizedPath('/contact-us')} className="btn btn-primary">{isHindi ? 'संपर्क करें' : 'Contact Us'}</Link>
           </div>
         </div>
       </section>

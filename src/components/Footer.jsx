@@ -1,20 +1,23 @@
 import { Link } from 'react-router-dom'
-
-const quickLinks = [
-  { label: 'Home', path: '/' },
-  { label: 'About Us', path: '/about-us' },
-  { label: 'Enquiry', path: '/enquiry' },
-  { label: 'Contact Us', path: '/contact-us' },
-]
-
-const productLinks = [
-  { label: 'All Coolers', path: '/all-coolers' },
-  { label: 'Personal Coolers', path: '/personal-coolers' },
-  { label: 'Commercial Coolers', path: '/commercial-cooler' },
-  { label: 'Tower Coolers', path: '/tower-coolers' },
-]
+import { useLanguage } from '../context/LanguageContext'
 
 export default function Footer() {
+  const { isHindi, t, getLocalizedPath } = useLanguage()
+
+  const quickLinks = [
+    { label: t.nav.home, path: '/' },
+    { label: t.nav.about, path: '/about-us' },
+    { label: t.nav.enquiry, path: '/enquiry' },
+    { label: t.nav.contact, path: '/contact-us' },
+  ]
+
+  const productLinks = [
+    { label: t.nav.allCoolers, path: '/all-coolers' },
+    { label: t.nav.personalCoolers, path: '/personal-coolers' },
+    { label: t.nav.commercialCoolers, path: '/commercial-cooler' },
+    { label: t.nav.towerCoolers, path: '/tower-coolers' },
+  ]
+
   return (
     <footer className="footer">
       <div className="footer-main">
@@ -23,12 +26,11 @@ export default function Footer() {
             {/* Brand */}
             <div className="footer-brand">
               <div className="logo-text">
-                <span className="brand">KK COOLER JODHPUR</span>
+                <span className="brand">KK COOLER {isHindi ? 'जोधपुर' : 'JODHPUR'}</span>
+                <span className="tagline">{isHindi ? 'के.के. एंटरप्राइजेज' : 'K.K. ENTERPRISES'}</span>
               </div>
               <p className="footer-about-text">
-                KK COOLER JODHPUR is a leading manufacturer of premium air coolers.
-                We provide the best quality personal, commercial, and tower coolers at the most competitive
-                prices across Rajasthan and all over India.
+                {t.footer.brandDesc}
               </p>
               <div className="footer-social">
                 <a href="#" aria-label="Facebook">
@@ -48,11 +50,11 @@ export default function Footer() {
 
             {/* Quick Links */}
             <div className="footer-col">
-              <h4>Quick Links</h4>
+              <h4>{t.footer.quickLinks}</h4>
               <ul className="footer-links">
                 {quickLinks.map(l => (
                   <li key={l.path}>
-                    <Link to={l.path}><i className="fas fa-chevron-right"></i>{l.label}</Link>
+                    <Link to={getLocalizedPath(l.path)}><i className="fas fa-chevron-right"></i>{l.label}</Link>
                   </li>
                 ))}
               </ul>
@@ -60,11 +62,11 @@ export default function Footer() {
 
             {/* Products */}
             <div className="footer-col">
-              <h4>Our Coolers</h4>
+              <h4>{t.footer.ourCoolers}</h4>
               <ul className="footer-links">
                 {productLinks.map(l => (
                   <li key={l.path}>
-                    <Link to={l.path}><i className="fas fa-chevron-right"></i>{l.label}</Link>
+                    <Link to={getLocalizedPath(l.path)}><i className="fas fa-chevron-right"></i>{l.label}</Link>
                   </li>
                 ))}
               </ul>
@@ -72,10 +74,14 @@ export default function Footer() {
 
             {/* Contact */}
             <div className="footer-col">
-              <h4>Contact Info</h4>
+              <h4>{t.footer.contactInfo}</h4>
               <div className="footer-contact-item">
                 <i className="fas fa-map-marker-alt"></i>
-                <span>Near Dali Bai Circle (Dali Bai Mandir), Ambika Nagar, Masuria / Bhadu Market, Jodhpur, Rajasthan – 342001</span>
+                <span>
+                  {isHindi
+                    ? 'प्लॉट नं. 168 / प्लॉट नं. 19, अम्बिका नगर, डाली बाई सर्किल (डाली बाई मंदिर), मसूरिया / भादू मार्केट, जोधपुर, राजस्थान – 342001'
+                    : 'Near Dali Bai Circle (Dali Bai Mandir), Ambika Nagar, Masuria / Bhadu Market, Jodhpur, Rajasthan – 342001'}
+                </span>
               </div>
               <div className="footer-contact-item">
                 <i className="fas fa-phone-alt"></i>
@@ -101,8 +107,7 @@ export default function Footer() {
       <div className="footer-bottom">
         <div className="container">
           <p>
-            &copy; {new Date().getFullYear()} <span>KK COOLER JODHPUR</span>. All Rights Reserved.
-            | Leading Air Cooler Manufacturer in Jodhpur, Rajasthan
+            &copy; {new Date().getFullYear()} <span>KK COOLER JODHPUR</span>. {t.footer.rights}
           </p>
         </div>
       </div>

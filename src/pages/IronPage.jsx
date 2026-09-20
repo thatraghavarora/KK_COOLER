@@ -1,5 +1,6 @@
 import PageBanner from '../components/PageBanner'
 import { Link } from 'react-router-dom'
+import { useLanguage } from '../context/LanguageContext'
 
 const products = [
   {
@@ -21,15 +22,20 @@ const products = [
 ]
 
 export default function IronPage() {
+  const { isHindi, t, getLocalizedPath } = useLanguage()
+
   return (
     <>
-      <PageBanner title="Iron" breadcrumb={[{ label: 'Our Products' }, { label: 'Iron' }]} />
+      <PageBanner
+        title={t.nav.iron}
+        breadcrumb={[{ label: isHindi ? 'होम' : 'Home', path: '/' }, { label: t.nav.iron }]}
+      />
 
       <section className="section">
         <div className="container">
           <div className="section-title">
-            <h2>Electric Irons</h2>
-            <p>Get perfectly pressed clothes every time with KK COOLER's range of irons. Available in dry, steam, and travel variants for all your pressing needs.</p>
+            <h2>{isHindi ? 'इलेक्ट्रिक प्रेस (Irons)' : 'Electric Irons'}</h2>
+            <p>{isHindi ? 'ड्राई, स्टीम और ट्रैवल वेरिएंट्स में उच्च गुणवत्ता वाली टिकाऊ इलेक्ट्रिक प्रेस।' : "Get perfectly pressed clothes every time with KK COOLER's range of irons. Available in dry, steam, and travel variants for all your pressing needs."}</p>
           </div>
           <div className="product-list-grid">
             {products.map((p, i) => (
@@ -47,7 +53,9 @@ export default function IronPage() {
                       <li key={j}><i className="fas fa-check-circle"></i>{s}</li>
                     ))}
                   </ul>
-                  <Link to="/enquiry" className="btn btn-primary" style={{ marginTop: '12px', display: 'inline-block', fontSize: '13px', padding: '9px 22px' }}>Get Quote</Link>
+                  <Link to={getLocalizedPath('/enquiry')} className="btn btn-primary" style={{ marginTop: '12px', display: 'inline-block', fontSize: '13px', padding: '9px 22px' }}>
+                    {isHindi ? 'कोटेशन लें' : 'Get Quote'}
+                  </Link>
                 </div>
               </div>
             ))}
@@ -56,11 +64,11 @@ export default function IronPage() {
       </section>
       <section className="cta-section">
         <div className="container">
-          <h2>Get KK COOLER Irons at the Best Price!</h2>
-          <p>Durable, efficient irons for home and business use. Bulk orders available at special rates.</p>
+          <h2>{isHindi ? 'सर्वश्रेष्ठ दरों पर इलेक्ट्रिक प्रेस पाएं!' : 'Get KK COOLER Irons at the Best Price!'}</h2>
+          <p>{isHindi ? 'घरेलू एवं व्यावसायिक उपयोग हेतु टिकाऊ एवं सुरक्षित प्रेस।' : 'Durable, efficient irons for home and business use. Bulk orders available at special rates.'}</p>
           <div className="cta-buttons">
-            <Link to="/enquiry" className="btn btn-outline">Send Enquiry</Link>
-            <Link to="/contact-us" className="btn" style={{ background: 'white', color: '#e84c0d', fontWeight: 700 }}>Contact Us</Link>
+            <Link to={getLocalizedPath('/enquiry')} className="btn btn-outline">{isHindi ? 'पूछताछ करें' : 'Send Enquiry'}</Link>
+            <Link to={getLocalizedPath('/contact-us')} className="btn btn-primary">{isHindi ? 'संपर्क करें' : 'Contact Us'}</Link>
           </div>
         </div>
       </section>

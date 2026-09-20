@@ -1,14 +1,40 @@
 import { useState, useMemo } from 'react'
-import { useParams, Link, useNavigate } from 'react-router-dom'
+import { useParams, Link } from 'react-router-dom'
 import PageBanner from '../components/PageBanner'
+import { useLanguage } from '../context/LanguageContext'
 import { allCoolers, factoryDetails } from '../data/coolersData'
+
+const specsLabelsHi = {
+  'Product Name': 'उत्पाद का नाम',
+  'Product Category': 'उत्पाद श्रेणी',
+  'Model Number': 'मॉडल नंबर',
+  'Cooler Type': 'कूलर का प्रकार',
+  'Cooling Capacity': 'कूलिंग क्षमता',
+  'Tank Capacity': 'पानी की टंकी क्षमता',
+  'Motor & Pump Details': 'मोटर एवं पंप विवरण',
+  'Power Consumption': 'बिजली खपत (Power)',
+  'Fan / Blower Details': 'पंखा / ब्लोअर विवरण',
+  'Body Material': 'बॉडी मटेरियल',
+  'Available Colours': 'उपलब्ध रंग',
+  'Warranty': 'वारंटी',
+  'Air Throw Distance': 'एयर थ्रो दूरी',
+  'Air Delivery (CFM)': 'एयर डिलीवरी (CFM)',
+  'Dimensions (L x W x H)': 'आयाम (लंबाई x चौड़ाई x ऊंचाई)',
+  'Factory / Store Address': 'फैक्ट्री एवं स्टोर का पता',
+  'Factory Email': 'ऑफिशियल ईमेल आईडी',
+  'Factory Contact Number': 'फैक्ट्री संपर्क नंबर',
+  'WhatsApp Number': 'व्हाट्सएप नंबर',
+  'Proprietor': 'प्रोप्राइटर',
+  'Selling Price': 'हमारा विशेष फैक्ट्री भाव',
+  'MRP': 'अधिकतम खुदरा मूल्य (M.R.P.)',
+  'Product Brochure': 'प्रोडक्ट ब्रोशर (PDF)',
+  'Specification Sheet': 'स्पेसिफिकेशन शीट',
+}
 
 export default function ProductDetailPage() {
   const { id } = useParams()
-  const navigate = useNavigate()
+  const { isHindi, t, getLocalizedPath } = useLanguage()
   const [activeMediaTab, setActiveMediaTab] = useState(0) // 0: front, 1: side, 2: back, 3: video
-  const [quoteSent, setQuoteSent] = useState(false)
-  const [quoteForm, setQuoteForm] = useState({ name: '', phone: '', city: '', quantity: '1' })
 
   const cooler = useMemo(() => {
     return allCoolers.find(c => c.id === id) || allCoolers[0]
@@ -24,25 +50,27 @@ export default function ProductDetailPage() {
     `Hello KK COOLER JODHPUR!\n\nI am interested in:\nProduct: ${cooler.name}\nModel Number: ${cooler.modelNumber}\nCategory: ${cooler.categoryName}\nPrice: ₹${cooler.sellingPrice.toLocaleString('en-IN')}\n\nPlease share the best factory quotation and delivery timeline to my location.`
   )
 
-  const handleQuoteSubmit = (e) => {
-    e.preventDefault()
-    setQuoteSent(true)
-    setTimeout(() => {
-      alert(`Thank you ${quoteForm.name}! Your enquiry for ${cooler.name} has been received. Our factory team will contact you at ${quoteForm.phone} shortly.`)
-    }, 200)
-  }
-
   const handlePrintSpecs = () => {
     window.print()
   }
+
+  const categoryLabel = isHindi
+    ? (cooler.category === 'personal' ? 'पर्सनल कूलर्स' : cooler.category === 'commercial' ? 'कमर्शियल कूलर्स' : 'टावर कूलर्स')
+    : cooler.categoryName
+
+  const categoryPath = cooler.category === 'personal'
+    ? '/personal-coolers'
+    : cooler.category === 'commercial'
+      ? '/commercial-cooler'
+      : '/tower-coolers'
 
   return (
     <>
       <PageBanner
         title={cooler.name}
         breadcrumb={[
-          { label: 'All Coolers', path: '/all-coolers' },
-          { label: cooler.categoryName, path: `/${cooler.category === 'personal' ? 'personal-coolers' : cooler.category === 'commercial' ? 'commercial-cooler' : 'tower-coolers'}` },
+          { label: t.nav.allCoolers, path: '/all-coolers' },
+          { label: categoryLabel, path: categoryPath },
           { label: cooler.modelNumber }
         ]}
       />
@@ -105,7 +133,7 @@ export default function ProductDetailPage() {
                   zIndex: 2
                 }}>
                   <i className="fas fa-certificate" style={{ color: '#fbbf24', marginRight: '5px' }} />
-                  Jodhpur Made
+                  {isHindi ? 'जोधपुर निर्मित' : 'Jodhpur Made'}
                 </span>
 
                 {activeMediaTab === 3 ? (
@@ -134,29 +162,35 @@ export default function ProductDetailPage() {
 
               {/* Thumbnail Selector Tabs */}
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(68px, 1fr))', gap: '8px' }}>
-                {cooler.gallery.map((item, idx) => (
-                  <button
-                    key={idx}
-                    onClick={() => setActiveMediaTab(idx)}
-                    style={{
-                      background: activeMediaTab === idx ? '#fff' : '#f8fafc',
-                      border: activeMediaTab === idx ? '2px solid var(--primary)' : '1px solid #e2e8f0',
-                      borderRadius: '10px',
-                      padding: '8px',
-                      cursor: 'pointer',
-                      textAlign: 'center',
-                      boxShadow: activeMediaTab === idx ? '0 4px 12px rgba(192,19,42,0.2)' : 'none',
-                      transition: 'all 0.2s ease'
-                    }}
-                  >
-                    <div style={{ height: '48px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                      <img src={item.image} alt={item.label} style={{ maxHeight: '100%', maxWidth: '100%', objectFit: 'contain' }} />
-                    </div>
-                    <div style={{ fontSize: '10px', fontWeight: 600, color: activeMediaTab === idx ? 'var(--primary)' : '#64748b', marginTop: '4px' }}>
-                      {item.label}
-                    </div>
-                  </button>
-                ))}
+                {cooler.gallery.map((item, idx) => {
+                  const tabLabel = isHindi
+                    ? (idx === 0 ? 'सामने (Front)' : idx === 1 ? 'साइड (Side)' : 'पीछे (Back)')
+                    : item.label
+
+                  return (
+                    <button
+                      key={idx}
+                      onClick={() => setActiveMediaTab(idx)}
+                      style={{
+                        background: activeMediaTab === idx ? '#fff' : '#f8fafc',
+                        border: activeMediaTab === idx ? '2px solid var(--primary)' : '1px solid #e2e8f0',
+                        borderRadius: '10px',
+                        padding: '8px',
+                        cursor: 'pointer',
+                        textAlign: 'center',
+                        boxShadow: activeMediaTab === idx ? '0 4px 12px rgba(192,19,42,0.2)' : 'none',
+                        transition: 'all 0.2s ease'
+                      }}
+                    >
+                      <div style={{ height: '48px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                        <img src={item.image} alt={tabLabel} style={{ maxHeight: '100%', maxWidth: '100%', objectFit: 'contain' }} />
+                      </div>
+                      <div style={{ fontSize: '10px', fontWeight: 600, color: activeMediaTab === idx ? 'var(--primary)' : '#64748b', marginTop: '4px' }}>
+                        {tabLabel}
+                      </div>
+                    </button>
+                  )
+                })}
 
                 {/* Video Tab */}
                 <button
@@ -178,7 +212,7 @@ export default function ProductDetailPage() {
                   }}
                 >
                   <i className="fas fa-play-circle" style={{ fontSize: '24px', color: activeMediaTab === 3 ? '#ef4444' : 'var(--primary)', marginBottom: '4px' }} />
-                  <div style={{ fontSize: '10px', fontWeight: 700 }}>Product Video</div>
+                  <div style={{ fontSize: '10px', fontWeight: 700 }}>{isHindi ? 'वीडियो डेमो' : 'Product Video'}</div>
                 </button>
               </div>
 
@@ -196,26 +230,25 @@ export default function ProductDetailPage() {
               }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                   <i className="fas fa-award" style={{ color: 'var(--primary)', fontSize: '16px' }} />
-                  <span><strong>10+ Years</strong> Jodhpur Heritage</span>
+                  <span><strong>10+ {isHindi ? 'वर्ष' : 'Years'}</strong> {isHindi ? 'जोधपुर का भरोसा' : 'Jodhpur Heritage'}</span>
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                   <i className="fas fa-shield-alt" style={{ color: '#16a34a', fontSize: '16px' }} />
-                  <span><strong>1 Year</strong> Full Warranty</span>
+                  <span><strong>1 {isHindi ? 'वर्ष' : 'Year'}</strong> {isHindi ? 'पूर्ण वारंटी' : 'Full Warranty'}</span>
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                   <i className="fas fa-bolt" style={{ color: '#eab308', fontSize: '16px' }} />
-                  <span><strong>100% Copper</strong> Winding</span>
+                  <span><strong>100% {isHindi ? 'कॉपर मोटर' : 'Copper'}</strong></span>
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                   <i className="fas fa-truck" style={{ color: '#0284c7', fontSize: '16px' }} />
-                  <span><strong>Pan-India</strong> Direct Dispatch</span>
+                  <span><strong>{isHindi ? 'राजस्थान व पूरे भारत' : 'Pan-India'}</strong> {isHindi ? 'में डिलीवरी' : 'Dispatch'}</span>
                 </div>
               </div>
             </div>
 
             {/* Right: Product Info & Order CTAs */}
             <div>
-              {/* Category & Model Pill */}
               <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '8px' }}>
                 <span style={{
                   background: 'rgba(192, 19, 42, 0.1)',
@@ -225,10 +258,10 @@ export default function ProductDetailPage() {
                   padding: '4px 12px',
                   borderRadius: '20px'
                 }}>
-                  {cooler.categoryName}
+                  {categoryLabel}
                 </span>
                 <span style={{ fontSize: '13px', color: '#64748b', fontWeight: 600 }}>
-                  Model: <strong style={{ color: 'var(--dark)' }}>{cooler.modelNumber}</strong>
+                  {isHindi ? 'मॉडल:' : 'Model:'} <strong style={{ color: 'var(--dark)' }}>{cooler.modelNumber}</strong>
                 </span>
                 <span style={{
                   marginLeft: 'auto',
@@ -240,7 +273,7 @@ export default function ProductDetailPage() {
                   gap: '4px'
                 }}>
                   <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#16a34a', display: 'inline-block' }} />
-                  Ready in Factory Stock
+                  {isHindi ? 'फैक्ट्री स्टॉक उपलब्ध' : 'Ready in Factory Stock'}
                 </span>
               </div>
 
@@ -266,7 +299,7 @@ export default function ProductDetailPage() {
               }}>
                 <div>
                   <span style={{ fontSize: '11px', color: '#64748b', textTransform: 'uppercase', letterSpacing: '1px', display: 'block', fontWeight: 600 }}>
-                    Direct Factory Offer Price
+                    {isHindi ? 'सीधा फैक्ट्री ऑफर भाव' : 'Direct Factory Offer Price'}
                   </span>
                   <span style={{ fontSize: '2.4rem', fontWeight: 900, color: 'var(--primary)', fontFamily: 'Rubik, sans-serif' }}>
                     ₹{cooler.sellingPrice.toLocaleString('en-IN')}
@@ -283,7 +316,9 @@ export default function ProductDetailPage() {
                   padding: '4px 10px',
                   borderRadius: '20px'
                 }}>
-                  Save {discountPercent}% (₹{(cooler.mrp - cooler.sellingPrice).toLocaleString('en-IN')} OFF)
+                  {isHindi
+                    ? `बचत ${discountPercent}% (₹${(cooler.mrp - cooler.sellingPrice).toLocaleString('en-IN')} की छूट)`
+                    : `Save ${discountPercent}% (₹${(cooler.mrp - cooler.sellingPrice).toLocaleString('en-IN')} OFF)`}
                 </div>
               </div>
 
@@ -295,26 +330,25 @@ export default function ProductDetailPage() {
                 marginBottom: '25px'
               }}>
                 <div style={{ background: '#ffffff', border: '1px solid #e2e8f0', borderRadius: '10px', padding: '12px 16px' }}>
-                  <div style={{ fontSize: '11px', color: '#64748b', textTransform: 'uppercase' }}>Tank Capacity</div>
+                  <div style={{ fontSize: '11px', color: '#64748b', textTransform: 'uppercase' }}>{isHindi ? 'टैंक क्षमता' : 'Tank Capacity'}</div>
                   <div style={{ fontSize: '15px', fontWeight: 700, color: 'var(--dark)', marginTop: '2px' }}>{cooler.capacity}</div>
                 </div>
                 <div style={{ background: '#ffffff', border: '1px solid #e2e8f0', borderRadius: '10px', padding: '12px 16px' }}>
-                  <div style={{ fontSize: '11px', color: '#64748b', textTransform: 'uppercase' }}>Cooling Area</div>
+                  <div style={{ fontSize: '11px', color: '#64748b', textTransform: 'uppercase' }}>{isHindi ? 'कूलिंग एरिया' : 'Cooling Area'}</div>
                   <div style={{ fontSize: '15px', fontWeight: 700, color: 'var(--dark)', marginTop: '2px' }}>{cooler.coolingCapacity.split('(')[0]}</div>
                 </div>
                 <div style={{ background: '#ffffff', border: '1px solid #e2e8f0', borderRadius: '10px', padding: '12px 16px' }}>
-                  <div style={{ fontSize: '11px', color: '#64748b', textTransform: 'uppercase' }}>Air Throw</div>
+                  <div style={{ fontSize: '11px', color: '#64748b', textTransform: 'uppercase' }}>{isHindi ? 'एयर थ्रो' : 'Air Throw'}</div>
                   <div style={{ fontSize: '15px', fontWeight: 700, color: 'var(--dark)', marginTop: '2px' }}>{cooler.airThrow || cooler.airDelivery}</div>
                 </div>
                 <div style={{ background: '#ffffff', border: '1px solid #e2e8f0', borderRadius: '10px', padding: '12px 16px' }}>
-                  <div style={{ fontSize: '11px', color: '#64748b', textTransform: 'uppercase' }}>Motor Winding</div>
-                  <div style={{ fontSize: '15px', fontWeight: 700, color: 'var(--dark)', marginTop: '2px' }}>100% Pure Copper</div>
+                  <div style={{ fontSize: '11px', color: '#64748b', textTransform: 'uppercase' }}>{isHindi ? 'मोटर' : 'Motor Winding'}</div>
+                  <div style={{ fontSize: '15px', fontWeight: 700, color: 'var(--dark)', marginTop: '2px' }}>{isHindi ? '100% शुद्ध कॉपर' : '100% Pure Copper'}</div>
                 </div>
               </div>
 
               {/* Big Action Buttons */}
               <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginBottom: '25px' }}>
-                {/* WhatsApp Button */}
                 <a
                   href={`https://wa.me/${factoryDetails.whatsapp}?text=${whatsappMessage}`}
                   target="_blank"
@@ -337,10 +371,9 @@ export default function ProductDetailPage() {
                   }}
                 >
                   <i className="fab fa-whatsapp" style={{ fontSize: '22px' }} />
-                  Order / Enquire on WhatsApp
+                  {isHindi ? 'व्हाट्सएप पर ऑर्डर / पूछताछ करें (+91 9351359518)' : 'Order / Enquire on WhatsApp (+91 9351359518)'}
                 </a>
 
-                {/* Secondary Row: Call & Request Quote */}
                 <div className="product-cta-row" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
                   <a
                     href={`tel:${factoryDetails.phone}`}
@@ -360,83 +393,79 @@ export default function ProductDetailPage() {
                     }}
                   >
                     <i className="fas fa-phone-alt" />
-                    Call: {factoryDetails.phone}
+                    {isHindi ? 'कॉल करें: 9351359518' : 'Call: 9351359518'}
                   </a>
 
-                  <a
-                    href={`https://wa.me/919351359518?text=${whatsappMessage}`}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="btn btn-primary"
+                  <button
+                    onClick={handlePrintSpecs}
                     style={{
+                      background: '#ffffff',
+                      color: 'var(--dark)',
+                      border: '1px solid #cbd5e1',
                       padding: '12px 20px',
                       borderRadius: '10px',
                       fontWeight: 700,
                       fontSize: '14px',
-                      textAlign: 'center',
-                      textDecoration: 'none',
+                      cursor: 'pointer',
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
                       gap: '8px'
                     }}
                   >
-                    <i className="fab fa-whatsapp" style={{ fontSize: '18px' }} />
-                    Instant Enquiry
-                  </a>
+                    <i className="fas fa-download" />
+                    {isHindi ? 'ब्रोशर / PDF सेव करें' : 'Download Brochure'}
+                  </button>
                 </div>
               </div>
 
-              {/* Factory Dispatch & Contact Box */}
+              {/* Factory Address Card */}
               <div style={{
-                background: '#ffffff',
-                borderRadius: '14px',
+                background: '#f8fafc',
                 border: '1px solid #e2e8f0',
-                padding: '20px',
-                boxShadow: '0 4px 15px rgba(0,0,0,0.04)'
+                borderRadius: '12px',
+                padding: '16px 20px',
+                fontSize: '13px',
+                color: '#475569'
               }}>
-                <div style={{ fontSize: '13px', fontWeight: 700, color: 'var(--primary)', marginBottom: '10px', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                <div style={{ fontWeight: 700, color: 'var(--primary)', marginBottom: '4px', display: 'flex', alignItems: 'center', gap: '6px' }}>
                   <i className="fas fa-industry" />
-                  Direct Jodhpur Factory Details
+                  {isHindi ? 'के.के. एंटरप्राइजेज - फैक्ट्री एवं शोरूम' : 'KK Cooler (K.K. Enterprises) Factory & Showroom'}
                 </div>
-                <div style={{ fontSize: '12px', color: '#475569', lineHeight: '1.7' }}>
-                  <div><strong>Manufacturer:</strong> {factoryDetails.name}</div>
-                  <div><strong>Address:</strong> {factoryDetails.address}</div>
-                  <div><strong>Contact:</strong> +91 {factoryDetails.phone} | {factoryDetails.altPhone}</div>
-                  <div><strong>Email:</strong> <a href={`mailto:${factoryDetails.email}`} style={{ color: 'var(--primary)' }}>{factoryDetails.email}</a></div>
-                  <div><strong>Timing:</strong> {factoryDetails.workingHours}</div>
+                <div>
+                  {factoryDetails.address}
+                </div>
+                <div style={{ marginTop: '6px', fontSize: '12px', color: '#64748b' }}>
+                  {isHindi ? 'प्रोप्राइटर:' : 'Proprietor:'} <strong>{isHindi ? 'श्री कमल अरोड़ा' : factoryDetails.proprietor}</strong> | {isHindi ? 'समय:' : 'Timings:'} 10:00 AM – 7:00 PM
                 </div>
               </div>
             </div>
           </div>
 
-          {/* Detailed Technical Specification Sheet Table */}
+          {/* Full Specifications Table Section (All 23 Parameters) */}
           <div style={{ marginBottom: '60px' }}>
             <div style={{
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'space-between',
+              marginBottom: '20px',
               flexWrap: 'wrap',
-              gap: '15px',
-              marginBottom: '20px'
+              gap: '15px'
             }}>
               <div>
-                <h2 style={{ fontSize: '1.6rem', fontWeight: 800, color: 'var(--dark)' }}>
-                  Complete Technical Specifications
+                <h2 style={{ fontSize: '1.6rem', fontWeight: 800, color: 'var(--dark)', margin: 0 }}>
+                  {isHindi ? 'संपूर्ण 23-पैरामीटर तकनीकी विवरण शीट' : 'Complete 23-Parameter Technical Specification Sheet'}
                 </h2>
-                <p style={{ fontSize: '14px', color: '#64748b' }}>
-                  Official specification sheet for Model: <strong>{cooler.modelNumber}</strong>
+                <p style={{ margin: '4px 0 0', color: '#64748b', fontSize: '14px' }}>
+                  {isHindi ? `मॉडल: ${cooler.modelNumber} के संपूर्ण तकनीकी विनिर्देश` : `Official manufacturer specifications for model: ${cooler.modelNumber}`}
                 </p>
               </div>
 
-              {/* Print / Download Spec Sheet Button */}
               <button
                 onClick={handlePrintSpecs}
+                className="btn btn-outline"
                 style={{
-                  background: '#ffffff',
-                  border: '1px solid var(--primary)',
-                  color: 'var(--primary)',
-                  padding: '9px 18px',
+                  padding: '8px 18px',
                   borderRadius: '8px',
                   fontSize: '13px',
                   fontWeight: 700,
@@ -447,7 +476,7 @@ export default function ProductDetailPage() {
                 }}
               >
                 <i className="fas fa-print" />
-                Print / Save Spec Sheet
+                {isHindi ? 'प्रिंट / सेव करें' : 'Print / Save Spec Sheet'}
               </button>
             </div>
 
@@ -462,31 +491,35 @@ export default function ProductDetailPage() {
             }}>
               <table style={{ width: '100%', minWidth: '460px', borderCollapse: 'collapse', fontSize: '14px' }}>
                 <tbody>
-                  {Object.entries(cooler.specsSheet).map(([key, val], idx) => (
-                    <tr
-                      key={key}
-                      style={{
-                        background: idx % 2 === 0 ? '#f8fafc' : '#ffffff',
-                        borderBottom: '1px solid #e2e8f0'
-                      }}
-                    >
-                      <td style={{
-                        padding: '14px 24px',
-                        fontWeight: 600,
-                        color: '#334155',
-                        width: '35%',
-                        borderRight: '1px solid #e2e8f0'
-                      }}>
-                        {key}
-                      </td>
-                      <td style={{ padding: '14px 24px', color: 'var(--dark)', fontWeight: 500 }}>
-                        {val}
-                      </td>
-                    </tr>
-                  ))}
+                  {Object.entries(cooler.specsSheet).map(([key, val], idx) => {
+                    const rowLabel = isHindi ? (specsLabelsHi[key] || key) : key
+
+                    return (
+                      <tr
+                        key={key}
+                        style={{
+                          background: idx % 2 === 0 ? '#f8fafc' : '#ffffff',
+                          borderBottom: '1px solid #e2e8f0'
+                        }}
+                      >
+                        <td style={{
+                          padding: '14px 24px',
+                          fontWeight: 600,
+                          color: '#334155',
+                          width: '35%',
+                          borderRight: '1px solid #e2e8f0'
+                        }}>
+                          {rowLabel}
+                        </td>
+                        <td style={{ padding: '14px 24px', color: 'var(--dark)', fontWeight: 500 }}>
+                          {val}
+                        </td>
+                      </tr>
+                    )
+                  })}
                   <tr style={{ background: '#f8fafc', borderBottom: '1px solid #e2e8f0' }}>
                     <td style={{ padding: '14px 24px', fontWeight: 600, color: '#334155', borderRight: '1px solid #e2e8f0' }}>
-                      Body Material
+                      {isHindi ? 'बॉडी मटेरियल' : 'Body Material'}
                     </td>
                     <td style={{ padding: '14px 24px', color: 'var(--dark)', fontWeight: 500 }}>
                       {cooler.bodyMaterial}
@@ -494,7 +527,7 @@ export default function ProductDetailPage() {
                   </tr>
                   <tr style={{ background: '#ffffff', borderBottom: '1px solid #e2e8f0' }}>
                     <td style={{ padding: '14px 24px', fontWeight: 600, color: '#334155', borderRight: '1px solid #e2e8f0' }}>
-                      Available Colours
+                      {isHindi ? 'उपलब्ध रंग' : 'Available Colours'}
                     </td>
                     <td style={{ padding: '14px 24px', color: 'var(--dark)', fontWeight: 500 }}>
                       {cooler.availableColors}
@@ -502,7 +535,7 @@ export default function ProductDetailPage() {
                   </tr>
                   <tr style={{ background: '#f8fafc', borderBottom: '1px solid #e2e8f0' }}>
                     <td style={{ padding: '14px 24px', fontWeight: 600, color: '#334155', borderRight: '1px solid #e2e8f0' }}>
-                      Dimensions (L x W x H)
+                      {isHindi ? 'उत्पाद आयाम (L x W x H)' : 'Dimensions (L x W x H)'}
                     </td>
                     <td style={{ padding: '14px 24px', color: 'var(--dark)', fontWeight: 500 }}>
                       {cooler.dimensions}
@@ -510,7 +543,7 @@ export default function ProductDetailPage() {
                   </tr>
                   <tr style={{ background: '#ffffff' }}>
                     <td style={{ padding: '14px 24px', fontWeight: 600, color: '#334155', borderRight: '1px solid #e2e8f0' }}>
-                      Factory Contact & WhatsApp
+                      {isHindi ? 'फैक्ट्री संपर्क एवं व्हाट्सएप' : 'Factory Contact & WhatsApp'}
                     </td>
                     <td style={{ padding: '14px 24px', color: 'var(--dark)', fontWeight: 500 }}>
                       +91 {factoryDetails.phone} (WhatsApp Enabled) | {factoryDetails.email}
@@ -524,7 +557,7 @@ export default function ProductDetailPage() {
           {/* Key Features Section */}
           <div style={{ marginBottom: '60px' }}>
             <h2 style={{ fontSize: '1.6rem', fontWeight: 800, color: 'var(--dark)', marginBottom: '20px' }}>
-              Key Features & Engineering Highlights
+              {isHindi ? 'मुख्य विशेषताएं और इंजीनियरिंग खूबियां' : 'Key Features & Engineering Highlights'}
             </h2>
             <div style={{
               display: 'grid',
@@ -578,32 +611,46 @@ export default function ProductDetailPage() {
                 flexWrap: 'wrap',
                 gap: '10px'
               }}>
-                <div>
-                  <h2 style={{ fontSize: '1.5rem', fontWeight: 800, color: 'var(--dark)', margin: 0 }}>
-                    Other {cooler.categoryName} Models
-                  </h2>
-                  <p style={{ fontSize: '13px', color: '#64748b', margin: 0 }}>
-                    Compare other capacities in this category
-                  </p>
-                </div>
-                <Link to="/all-coolers" style={{ color: 'var(--primary)', fontWeight: 700, fontSize: '14px', textDecoration: 'none' }}>
-                  View All 14 Coolers →
+                <h2 style={{ fontSize: '1.6rem', fontWeight: 800, color: 'var(--dark)', margin: 0 }}>
+                  {isHindi ? `मिलते-जुलते अन्य ${categoryLabel}` : `More in ${cooler.categoryName}`}
+                </h2>
+                <Link
+                  to={getLocalizedPath(categoryPath)}
+                  style={{ color: 'var(--primary)', fontWeight: 700, fontSize: '14px', textDecoration: 'none' }}
+                >
+                  {isHindi ? 'इस श्रेणी के सभी मॉडल देखें →' : `View All ${cooler.categoryName} →`}
                 </Link>
               </div>
 
               <div className="product-list-grid">
                 {relatedCoolers.map(rc => (
-                  <div className="product-card" key={rc.id}>
-                    <div className="product-card-img" style={{ background: '#ffffff', height: '220px', padding: '15px' }}>
-                      <img src={rc.image} alt={rc.name} style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
+                  <div key={rc.id} className="product-card" style={{ display: 'flex', flexDirection: 'column' }}>
+                    <div className="product-card-img" style={{ height: '220px', background: '#ffffff', padding: '16px', position: 'relative' }}>
+                      <Link to={getLocalizedPath(`/product/${rc.id}`)} style={{ display: 'block', width: '100%', height: '100%' }}>
+                        <img src={rc.image} alt={rc.name} style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
+                      </Link>
                     </div>
-                    <div className="product-card-body">
-                      <h3>{rc.name}</h3>
-                      <div style={{ fontSize: '1.2rem', fontWeight: 900, color: 'var(--primary)', marginBottom: '8px' }}>
-                        ₹{rc.sellingPrice.toLocaleString('en-IN')}
+                    <div className="product-card-body" style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+                      <div style={{ fontSize: '11px', color: '#94a3b8', fontWeight: 700 }}>{isHindi ? 'मॉडल:' : 'Model:'} {rc.modelNumber}</div>
+                      <h3 style={{ fontSize: '1rem', fontWeight: 700, margin: '4px 0 8px' }}>
+                        <Link to={getLocalizedPath(`/product/${rc.id}`)} style={{ color: 'inherit', textDecoration: 'none' }}>
+                          {rc.name}
+                        </Link>
+                      </h3>
+                      <div style={{ display: 'flex', alignItems: 'baseline', gap: '8px', marginBottom: '14px' }}>
+                        <span style={{ fontSize: '1.15rem', fontWeight: 800, color: 'var(--primary)' }}>
+                          ₹{rc.sellingPrice.toLocaleString('en-IN')}
+                        </span>
+                        <span style={{ fontSize: '11px', color: '#94a3b8', textDecoration: 'line-through' }}>
+                          ₹{rc.mrp.toLocaleString('en-IN')}
+                        </span>
                       </div>
-                      <Link to={`/product/${rc.id}`} className="btn btn-primary" style={{ display: 'block', textAlign: 'center', fontSize: '13px' }}>
-                        View Details &amp; Specs
+                      <Link
+                        to={getLocalizedPath(`/product/${rc.id}`)}
+                        className="btn btn-outline"
+                        style={{ marginTop: 'auto', textAlign: 'center', fontSize: '12px', padding: '8px' }}
+                      >
+                        {isHindi ? 'विवरण देखें' : 'View Specifications'}
                       </Link>
                     </div>
                   </div>

@@ -1,5 +1,6 @@
 import PageBanner from '../components/PageBanner'
 import { Link } from 'react-router-dom'
+import { useLanguage } from '../context/LanguageContext'
 
 const products = [
   {
@@ -21,15 +22,20 @@ const products = [
 ]
 
 export default function AllPurposeFansPage() {
+  const { isHindi, t, getLocalizedPath } = useLanguage()
+
   return (
     <>
-      <PageBanner title="All Purpose Fans" breadcrumb={[{ label: 'Our Products' }, { label: 'All Purpose Fans' }]} />
+      <PageBanner
+        title={t.nav.allPurposeFan}
+        breadcrumb={[{ label: isHindi ? 'होम' : 'Home', path: '/' }, { label: t.nav.allPurposeFan }]}
+      />
 
       <section className="section">
         <div className="container">
           <div className="section-title">
-            <h2>All Purpose Fans</h2>
-            <p>Versatile fans for every space — table fans, wall fans, ceiling fans and more. All designed for maximum airflow and energy efficiency.</p>
+            <h2>{isHindi ? 'ऑल पर्पस पंखे' : 'All Purpose Fans'}</h2>
+            <p>{isHindi ? 'टेबल पंखे, वॉल पंखे, सीलिंग पंखे — हर स्थान के लिए ऊर्जा-कुशल पंखे।' : 'Versatile fans for every space — table fans, wall fans, ceiling fans and more. All designed for maximum airflow and energy efficiency.'}</p>
           </div>
           <div className="product-list-grid">
             {products.map((p, i) => (
@@ -47,7 +53,9 @@ export default function AllPurposeFansPage() {
                       <li key={j}><i className="fas fa-check-circle"></i>{s}</li>
                     ))}
                   </ul>
-                  <Link to="/enquiry" className="btn btn-primary" style={{ marginTop: '12px', display: 'inline-block', fontSize: '13px', padding: '9px 22px' }}>Get Quote</Link>
+                  <Link to={getLocalizedPath('/enquiry')} className="btn btn-primary" style={{ marginTop: '12px', display: 'inline-block', fontSize: '13px', padding: '9px 22px' }}>
+                    {isHindi ? 'कोटेशन लें' : 'Get Quote'}
+                  </Link>
                 </div>
               </div>
             ))}
@@ -56,11 +64,11 @@ export default function AllPurposeFansPage() {
       </section>
       <section className="cta-section">
         <div className="container">
-          <h2>Get All Purpose Fans at Wholesale Rates!</h2>
-          <p>Bulk orders welcome. Dealer & distributor inquiries also invited.</p>
+          <h2>{isHindi ? 'थोक भाव में ऑल पर्पस पंखे पाएं!' : 'Get All Purpose Fans at Wholesale Rates!'}</h2>
+          <p>{isHindi ? 'थोक ऑर्डर्स और डीलरशिप पूछताछ आमंत्रित हैं।' : 'Bulk orders welcome. Dealer & distributor inquiries also invited.'}</p>
           <div className="cta-buttons">
-            <Link to="/enquiry" className="btn btn-outline">Send Enquiry</Link>
-            <Link to="/contact-us" className="btn" style={{ background: 'white', color: '#e84c0d', fontWeight: 700 }}>Contact Us</Link>
+            <Link to={getLocalizedPath('/enquiry')} className="btn btn-outline">{isHindi ? 'पूछताछ करें' : 'Send Enquiry'}</Link>
+            <Link to={getLocalizedPath('/contact-us')} className="btn btn-primary">{isHindi ? 'संपर्क करें' : 'Contact Us'}</Link>
           </div>
         </div>
       </section>

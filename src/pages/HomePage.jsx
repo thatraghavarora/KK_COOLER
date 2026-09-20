@@ -1,101 +1,93 @@
 import { useState, useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
+import { useLanguage } from '../context/LanguageContext'
 const heroBg = 'https://res.cloudinary.com/t6yv9yib/video/upload/v1789879011/Make_a_second_video_to_acco.mp4'
 import personalCoolerImg from '../assets/perosnal_cooler.png'
 import commercialCoolerImg from '../assets/commerinal_cooler.png'
 import towerCoolerImg from '../assets/tower_cooler.png'
 import { allCoolers, coolerCategories } from '../data/coolersData'
 
-const slides = [
-  {
-    badge: 'Leading Manufacturer',
-    title: <>Beat the Heat with <span>KK COOLER</span></>,
-    desc: 'Premium quality air coolers for every need — personal, commercial & industrial. Trusted by lakhs of households across India.',
-    bg: 'linear-gradient(135deg, #8f0a1d 0%, #c0132a 100%)',
-    faIcon: 'fas fa-snowflake',
-  },
-  {
-    badge: 'Wide Product Range',
-    title: <>High-Performance <span>Fans & Appliances</span></>,
-    desc: 'From pedestal fans to room heaters and irons — explore our complete range of home appliances engineered for Indian homes.',
-    bg: 'linear-gradient(135deg, #6b0715 0%, #9e1020 100%)',
-    faIcon: 'fas fa-fan',
-  },
-  {
-    badge: 'Pan India Delivery',
-    title: <>Quality Products at <span>Affordable Prices</span></>,
-    desc: 'We bring factory-direct pricing to your doorstep. Made in India, delivered across every state — UP, Bihar, Rajasthan and beyond.',
-    bg: 'linear-gradient(135deg, #5a0912 0%, #8f0a1d 100%)',
-    faIcon: 'fas fa-truck',
-  },
+const featuresEn = [
+  { icon: 'fas fa-history', title: '10+ Years Experience', desc: 'Over a decade of excellence in manufacturing heavy-duty desert and plastic coolers in Jodhpur.' },
+  { icon: 'fas fa-bolt', title: '100% Pure Copper Motor', desc: 'High air throw, maximum durability, low power consumption, and long lifespan.' },
+  { icon: 'fas fa-temperature-arrow-down', title: 'Engineered for Rajasthan Heat', desc: 'Specially designed to deliver ice-cold airflow even in extreme 48°C+ summer heat.' },
+  { icon: 'fas fa-industry', title: 'Direct Factory Pricing', desc: 'Wholesale, retail, and B2B distributor rates directly from our Jodhpur factory.' },
 ]
 
-const features = [
-  { icon: 'fas fa-truck', title: 'Pan India Delivery', desc: 'We deliver our products across all states in India — from UP and Bihar to Rajasthan, MP and beyond.' },
-  { icon: 'fas fa-flag', title: 'Made in India', desc: 'Proudly manufactured in India. Every KK COOLER product is crafted with pride at our Indian facility.' },
-  { icon: 'fas fa-history', title: '10+ Years Experience', desc: 'Over a decade of expertise in manufacturing premium coolers and home appliances trusted across India.' },
-  { icon: 'fas fa-headset', title: '24/7 Support', desc: 'Our dedicated customer support team is always ready to assist you anytime, anywhere.' },
+const featuresHi = [
+  { icon: 'fas fa-history', title: '10+ वर्षों का अनुभव', desc: 'जोधपुर में हैवी-ड्यूटी डेजर्ट और प्लास्टिक कूलर्स के निर्माण में एक दशक से अधिक का विश्वसनीय अनुभव।' },
+  { icon: 'fas fa-bolt', title: '100% शुद्ध कॉपर मोटर', desc: 'तेज हवा का थ्रो, अधिकतम मजबूती, कम बिजली खपत और लंबी उम्र वाली मोटर।' },
+  { icon: 'fas fa-temperature-arrow-down', title: 'राजस्थान की गर्मी हेतु निर्मित', desc: 'राजस्थान के 48°C+ के भीषण तापमान में भी बर्फ जैसी ठंडी हवा देने के लिए विशेष इंजीनियरिंग।' },
+  { icon: 'fas fa-industry', title: 'सीधे फैक्ट्री भाव में', desc: 'जोधपुर फैक्ट्री से सीधे ग्राहकों और डीलरों को थोक एवं खुदरा न्यूनतम दरों पर सप्लाय।' },
 ]
 
-const categories = [
-  { name: 'Personal Coolers', desc: 'Ideal for home & small rooms', path: '/personal-coolers', image: personalCoolerImg, color: '#c0132a' },
-  { name: 'Commercial Coolers', desc: 'For offices, shops & large spaces', path: '/commercial-cooler', image: commercialCoolerImg, color: '#8f0a1d' },
-  { name: 'Tower Coolers', desc: 'Slim design, powerful cooling', path: '/tower-coolers', image: towerCoolerImg, color: '#c0132a' },
-]
-
-const stats = [
+const statsEn = [
   { num: '50,000', label: 'Happy Customers', suffix: '+' },
   { num: '100', label: 'Cities Covered', suffix: '+' },
   { num: '10', label: 'Years Experience', suffix: '+' },
-  { num: '25', label: 'Product Variants', suffix: '+' },
+  { num: '14', label: 'Cooler Models', suffix: '+' },
 ]
 
-const testimonials = [
+const statsHi = [
+  { num: '50,000', label: 'संतुष्ट ग्राहक', suffix: '+' },
+  { num: '100', label: 'शहरों में सप्लाय', suffix: '+' },
+  { num: '10', label: 'वर्षों का अनुभव', suffix: '+' },
+  { num: '14', label: 'कूलर मॉडल्स', suffix: '+' },
+]
+
+const testimonialsEn = [
   {
-    text: 'Excellent cooler! Very good cooling even in peak summer. The quality is outstanding and it has been running perfectly for 2 years now.',
+    text: 'Excellent cooler! Very good cooling even in peak Jodhpur summer. The build quality of K.K. Enterprises is outstanding.',
     name: 'Rajesh Kumar',
-    location: 'Lucknow, UP',
-    rating: 5,
-  },
-  {
-    text: 'Best price in market with top quality. My family loves the KK COOLER cooler. Would highly recommend to everyone looking for a reliable cooler.',
-    name: 'Sunil Sharma',
     location: 'Jodhpur, Rajasthan',
     rating: 5,
   },
   {
-    text: 'I purchased a commercial cooler for my shop. Excellent performance and great after-sales service. Very satisfied with the product.',
-    name: 'Amit Verma',
+    text: 'Best price in market with top quality. Kamal Arora ji gave the best factory quotation for our bulk showroom order.',
+    name: 'Sunil Sharma',
     location: 'Jaipur, Rajasthan',
+    rating: 5,
+  },
+  {
+    text: 'I purchased a 100L commercial desert cooler for my restaurant. Remarkable air throw and very sturdy body.',
+    name: 'Amit Verma',
+    location: 'Bikaner, Rajasthan',
+    rating: 5,
+  },
+]
+
+const testimonialsHi = [
+  {
+    text: 'लाजवाब कूलर! जोधपुर की भीषण गर्मी में भी बहुत शानदार ठंडी हवा देता है। के.के. एंटरप्राइजेज की क्वालिटी सच में नंबर 1 है।',
+    name: 'राजेश कुमार',
+    location: 'जोधपुर, राजस्थान',
+    rating: 5,
+  },
+  {
+    text: 'मार्केट में सबसे कम दाम और सबसे मजबूत क्वालिटी। कमल अरोड़ा जी ने हमारे शोरूम के लिए सबसे बढ़िया थोक रेट दिया।',
+    name: 'सुनील शर्मा',
+    location: 'जयपुर, राजस्थान',
+    rating: 5,
+  },
+  {
+    text: 'मैंने अपनी दुकान के लिए 100 लीटर का कमर्शियल डेजर्ट कूलर लिया। हवा का थ्रो बहुत तेज है और बॉडी बहुत मजबूत है।',
+    name: 'अमित वर्मा',
+    location: 'बीकानेर, राजस्थान',
     rating: 5,
   },
 ]
 
 export default function HomePage() {
-  const [current, setCurrent] = useState(0)
+  const { isHindi, t, getLocalizedPath } = useLanguage()
   const [selectedType, setSelectedType] = useState('all')
-  const intervalRef = useRef(null)
-
-  const startSlider = () => {
-    intervalRef.current = setInterval(() => {
-      setCurrent(c => (c + 1) % slides.length)
-    }, 4500)
-  }
-
-  useEffect(() => {
-    startSlider()
-    return () => clearInterval(intervalRef.current)
-  }, [])
-
-  const goTo = (i) => {
-    setCurrent(i)
-    clearInterval(intervalRef.current)
-    startSlider()
-  }
 
   const displayedCoolers = selectedType === 'all'
     ? allCoolers
     : allCoolers.filter(c => c.category === selectedType)
+
+  const features = isHindi ? featuresHi : featuresEn
+  const stats = isHindi ? statsHi : statsEn
+  const testimonials = isHindi ? testimonialsHi : testimonialsEn
 
   return (
     <>
@@ -134,10 +126,10 @@ export default function HomePage() {
         <div className="container">
           <div className="section-title">
             <span className="badge-tag" style={{ color: 'var(--primary)', fontWeight: 700, letterSpacing: '2px', textTransform: 'uppercase', fontSize: '13px' }}>
-              KK COOLER JODHPUR RANGE
+              {isHindi ? 'के.के. कूलर जोधपुर रेंज' : 'KK COOLER JODHPUR RANGE'}
             </span>
-            <h2>Our Complete Air Cooler Collection</h2>
-            <p>Manufactured in Jodhpur, Rajasthan. Explore our entire range of Personal, Commercial, and Tower coolers built for extreme desert temperatures.</p>
+            <h2>{t.home.featuredTitle}</h2>
+            <p>{t.home.featuredSubtitle}</p>
           </div>
 
           {/* 3 Main Cooler Types Overview */}
@@ -147,56 +139,65 @@ export default function HomePage() {
             gap: '24px',
             marginBottom: '40px'
           }}>
-            {coolerCategories.map(cat => (
-              <div
-                key={cat.id}
-                onClick={() => setSelectedType(cat.id)}
-                style={{
-                  background: selectedType === cat.id ? 'linear-gradient(135deg, #1a1a2e 0%, #16213e 100%)' : '#ffffff',
-                  color: selectedType === cat.id ? '#ffffff' : 'var(--dark)',
-                  borderRadius: '16px',
-                  padding: '24px',
-                  cursor: 'pointer',
-                  border: selectedType === cat.id ? '2px solid var(--primary)' : '1px solid #e2e8f0',
-                  boxShadow: selectedType === cat.id ? '0 15px 35px rgba(192, 19, 42, 0.25)' : '0 4px 20px rgba(0,0,0,0.05)',
-                  transition: 'all 0.3s ease',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '20px',
-                }}
-              >
-                <div style={{
-                  width: '80px',
-                  height: '80px',
-                  borderRadius: '12px',
-                  background: '#ffffff',
-                  padding: '6px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  boxShadow: '0 4px 12px rgba(0,0,0,0.08)',
-                  flexShrink: 0
-                }}>
-                  <img src={cat.image} alt={cat.name} style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
-                </div>
-                <div>
-                  <h3 style={{
-                    fontSize: '1.15rem',
-                    color: selectedType === cat.id ? '#ffffff' : 'var(--primary)',
-                    marginBottom: '4px',
-                    fontWeight: 700
+            {coolerCategories.map(cat => {
+              const catTitle = isHindi
+                ? (cat.id === 'personal' ? 'पर्सनल कूलर्स' : cat.id === 'commercial' ? 'कमर्शियल व डेजर्ट कूलर्स' : 'टावर कूलर्स')
+                : cat.name
+              const catTagline = isHindi
+                ? (cat.id === 'personal' ? 'बेडरूम और पर्सनल स्पेस हेतु' : cat.id === 'commercial' ? 'दुकानों, हॉल्स और कारखानों हेतु' : 'आधुनिक स्लीक टावर डिजाइन')
+                : cat.tagline
+
+              return (
+                <div
+                  key={cat.id}
+                  onClick={() => setSelectedType(cat.id)}
+                  style={{
+                    background: selectedType === cat.id ? 'linear-gradient(135deg, #1a1a2e 0%, #16213e 100%)' : '#ffffff',
+                    color: selectedType === cat.id ? '#ffffff' : 'var(--dark)',
+                    borderRadius: '16px',
+                    padding: '24px',
+                    cursor: 'pointer',
+                    border: selectedType === cat.id ? '2px solid var(--primary)' : '1px solid #e2e8f0',
+                    boxShadow: selectedType === cat.id ? '0 15px 35px rgba(192, 19, 42, 0.25)' : '0 4px 20px rgba(0,0,0,0.05)',
+                    transition: 'all 0.3s ease',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '20px',
+                  }}
+                >
+                  <div style={{
+                    width: '80px',
+                    height: '80px',
+                    borderRadius: '12px',
+                    background: '#ffffff',
+                    padding: '6px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    boxShadow: '0 4px 12px rgba(0,0,0,0.08)',
+                    flexShrink: 0
                   }}>
-                    {cat.name}
-                  </h3>
-                  <div style={{ fontSize: '12px', color: selectedType === cat.id ? '#fca5a5' : '#64748b', fontWeight: 600 }}>
-                    {cat.count}
+                    <img src={cat.image} alt={catTitle} style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
                   </div>
-                  <div style={{ fontSize: '11px', marginTop: '4px', color: selectedType === cat.id ? '#cbd5e1' : '#94a3b8' }}>
-                    {cat.tagline}
+                  <div>
+                    <h3 style={{
+                      fontSize: '1.15rem',
+                      color: selectedType === cat.id ? '#ffffff' : 'var(--primary)',
+                      marginBottom: '4px',
+                      fontWeight: 700
+                    }}>
+                      {catTitle}
+                    </h3>
+                    <div style={{ fontSize: '12px', color: selectedType === cat.id ? '#fca5a5' : '#64748b', fontWeight: 600 }}>
+                      {cat.count}
+                    </div>
+                    <div style={{ fontSize: '11px', marginTop: '4px', color: selectedType === cat.id ? '#cbd5e1' : '#94a3b8' }}>
+                      {catTagline}
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              )
+            })}
           </div>
 
           {/* Interactive Filter Pills */}
@@ -209,10 +210,10 @@ export default function HomePage() {
             marginBottom: '35px'
           }}>
             {[
-              { id: 'all', label: 'All Cooler Types (14)' },
-              { id: 'personal', label: 'Personal Coolers (6)' },
-              { id: 'commercial', label: 'Commercial Coolers (4)' },
-              { id: 'tower', label: 'Tower Coolers (4)' },
+              { id: 'all', label: t.home.tabAll },
+              { id: 'personal', label: t.home.tabPersonal },
+              { id: 'commercial', label: t.home.tabCommercial },
+              { id: 'tower', label: t.home.tabTower },
             ].map(tab => (
               <button
                 key={tab.id}
@@ -235,7 +236,7 @@ export default function HomePage() {
             ))}
           </div>
 
-          {/* Product Cards Grid - All Models directly on Home Screen */}
+          {/* Product Cards Grid */}
           <div className="product-list-grid">
             {displayedCoolers.map(cooler => (
               <div className="product-card" key={cooler.id} style={{ display: 'flex', flexDirection: 'column' }}>
@@ -252,7 +253,6 @@ export default function HomePage() {
                     borderBottom: '1px solid #f1f5f9'
                   }}
                 >
-                  {/* Badge */}
                   <span style={{
                     position: 'absolute',
                     top: '12px',
@@ -268,7 +268,6 @@ export default function HomePage() {
                     {cooler.badge}
                   </span>
 
-                  {/* Category tag */}
                   <span style={{
                     position: 'absolute',
                     top: '12px',
@@ -281,11 +280,13 @@ export default function HomePage() {
                     borderRadius: '8px',
                     textTransform: 'uppercase'
                   }}>
-                    {cooler.categoryName}
+                    {isHindi
+                      ? (cooler.category === 'personal' ? 'पर्सनल' : cooler.category === 'commercial' ? 'कमर्शियल' : 'टावर')
+                      : cooler.categoryName}
                   </span>
 
                   <Link
-                    to={`/product/${cooler.id}`}
+                    to={getLocalizedPath(`/product/${cooler.id}`)}
                     style={{ display: 'block', width: '100%', height: '100%', textDecoration: 'none' }}
                   >
                     <img
@@ -306,12 +307,12 @@ export default function HomePage() {
 
                 <div className="product-card-body" style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
                   <div style={{ fontSize: '11px', fontWeight: 700, color: '#94a3b8', textTransform: 'uppercase', marginBottom: '4px' }}>
-                    Model: {cooler.modelNumber}
+                    {isHindi ? 'मॉडल:' : 'Model:'} {cooler.modelNumber}
                   </div>
 
                   <h3 style={{ fontSize: '1.08rem', fontWeight: 700, marginBottom: '6px' }}>
                     <Link
-                      to={`/product/${cooler.id}`}
+                      to={getLocalizedPath(`/product/${cooler.id}`)}
                       style={{ color: 'inherit', textDecoration: 'none', transition: 'color 0.2s' }}
                       onMouseEnter={e => e.currentTarget.style.color = 'var(--primary)'}
                       onMouseLeave={e => e.currentTarget.style.color = 'inherit'}
@@ -332,7 +333,7 @@ export default function HomePage() {
                       MRP ₹{cooler.mrp?.toLocaleString('en-IN') || cooler.mrp}
                     </span>
                     <span style={{ fontSize: '11px', color: '#16a34a', fontWeight: 700, background: '#dcfce7', padding: '2px 6px', borderRadius: '4px' }}>
-                      Factory Direct
+                      {isHindi ? 'फैक्ट्री रेट' : 'Factory Direct'}
                     </span>
                   </div>
 
@@ -347,7 +348,7 @@ export default function HomePage() {
 
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginTop: 'auto' }}>
                     <Link
-                      to={`/product/${cooler.id}`}
+                      to={getLocalizedPath(`/product/${cooler.id}`)}
                       className="btn"
                       style={{
                         background: '#1a1a2e',
@@ -366,7 +367,7 @@ export default function HomePage() {
                       }}
                     >
                       <i className="fas fa-list-check" />
-                      View Full Details & 23+ Specs
+                      {isHindi ? 'पूरी 23+ तकनीकी जानकारी देखें' : 'View Full Details & 23+ Specs'}
                     </Link>
 
                     <div style={{ display: 'flex', gap: '8px' }}>
@@ -389,7 +390,7 @@ export default function HomePage() {
                         }}
                       >
                         <i className="fab fa-whatsapp" style={{ fontSize: '15px' }} />
-                        Enquiry / Quote
+                        {isHindi ? 'कोटेशन लें' : 'Enquiry / Quote'}
                       </a>
                       <a
                         href={`https://wa.me/919351359518?text=Hello%20KK%20COOLER%20JODHPUR,%20I%20am%20interested%20in%20${encodeURIComponent(cooler.name)}%20(Model:%20${encodeURIComponent(cooler.modelNumber)})`}
@@ -406,7 +407,7 @@ export default function HomePage() {
                           textDecoration: 'none',
                           fontSize: '15px'
                         }}
-                        title="Instant WhatsApp Enquiry: +91 9351359518"
+                        title="WhatsApp: +91 9351359518"
                       >
                         <i className="fab fa-whatsapp" />
                       </a>
@@ -424,7 +425,7 @@ export default function HomePage() {
                           fontSize: '14px',
                           border: '1px solid #cbd5e1'
                         }}
-                        title="Call Factory: 9351359518"
+                        title="Call: 9351359518"
                       >
                         <i className="fas fa-phone-alt" />
                       </a>
@@ -438,7 +439,7 @@ export default function HomePage() {
           {/* Link to Full Catalog Page */}
           <div style={{ textAlign: 'center', marginTop: '45px' }}>
             <Link
-              to="/all-coolers"
+              to={getLocalizedPath('/all-coolers')}
               className="btn btn-blue"
               style={{
                 padding: '14px 34px',
@@ -447,7 +448,7 @@ export default function HomePage() {
                 boxShadow: '0 8px 25px rgba(192, 19, 42, 0.3)'
               }}
             >
-              View Full Cooler Catalog Page (14 Models) <i className="fas fa-arrow-right" style={{ marginLeft: '8px' }} />
+              {isHindi ? 'पूरा कूलर कैटलॉग देखें (14 मॉडल)' : 'View Full Cooler Catalog Page (14 Models)'} <i className="fas fa-arrow-right" style={{ marginLeft: '8px' }} />
             </Link>
           </div>
         </div>
@@ -512,32 +513,30 @@ export default function HomePage() {
                 </div>
                 <div className="years-badge-content">
                   <div className="num">10+</div>
-                  <div className="text">Years Experience</div>
+                  <div className="text">{isHindi ? 'वर्षों का अनुभव' : 'Years Experience'}</div>
                 </div>
               </div>
             </div>
 
             <div className="about-content">
-              <span className="badge-tag">Who We Are</span>
-              <h2>Leading Cooler Manufacturer in Jodhpur, Rajasthan</h2>
+              <span className="badge-tag">{isHindi ? 'हमारा परिचय' : 'Who We Are'}</span>
+              <h2>{isHindi ? 'जोधपुर, राजस्थान का अग्रणी एयर कूलर निर्माता' : 'Leading Cooler Manufacturer in Jodhpur, Rajasthan'}</h2>
               <p>
-                KK COOLER JODHPUR is a leading manufacturer of premium air coolers
-                headquartered in Jodhpur, Rajasthan. We have been serving lakhs of households and
-                businesses across India for over a decade.
-              </p>
-              <p>
-                Our product range covers personal coolers, commercial coolers, and tower coolers
-                — all manufactured with the highest quality standards and heavy-duty performance.
+                {isHindi
+                  ? 'के.के. कूलर (व्यावसायिक नाम: के.के. एंटरप्राइजेज) जोधपुर, राजस्थान में एयर कूलर निर्माण, थोक एवं खुदरा व्यापार का एक प्रमुख नाम है। प्रोप्राइटर श्री कमल अरोड़ा के नेतृत्व में, हम राजस्थान की भीषण गर्मी के लिए विशेष रूप से मजबूत और ठंडी हवा देने वाले कूलर्स तैयार करते हैं।'
+                  : 'KK COOLER JODHPUR (operating commercially as K.K. Enterprises) is a prominent air cooler manufacturing, wholesaling, and retail business located in Jodhpur, Rajasthan. Led by proprietor Mr. Kamal Arora, we engineer heavy-duty coolers designed to withstand intense dry summer heat.'}
               </p>
               <div className="about-features">
-                <div className="about-feature-item"><i className="fas fa-check-circle"></i> ISO Certified Products</div>
-                <div className="about-feature-item"><i className="fas fa-check-circle"></i> 10+ Years Experience</div>
-                <div className="about-feature-item"><i className="fas fa-check-circle"></i> Pan-India Distribution</div>
-                <div className="about-feature-item"><i className="fas fa-check-circle"></i> BIS Certified</div>
-                <div className="about-feature-item"><i className="fas fa-check-circle"></i> Energy Efficient</div>
-                <div className="about-feature-item"><i className="fas fa-check-circle"></i> Affordable Pricing</div>
+                <div className="about-feature-item"><i className="fas fa-check-circle"></i> {isHindi ? '100% शुद्ध कॉपर मोटर' : '100% Pure Copper Motor'}</div>
+                <div className="about-feature-item"><i className="fas fa-check-circle"></i> {isHindi ? '10+ वर्षों का अनुभव' : '10+ Years Experience'}</div>
+                <div className="about-feature-item"><i className="fas fa-check-circle"></i> {isHindi ? 'पूरे राजस्थान में सप्लाय' : 'Pan-Rajasthan Supply'}</div>
+                <div className="about-feature-item"><i className="fas fa-check-circle"></i> {isHindi ? 'थोक व खुदरा उपलब्ध' : 'Wholesale & Retail'}</div>
+                <div className="about-feature-item"><i className="fas fa-check-circle"></i> {isHindi ? 'कम बिजली खपत' : 'Energy Efficient'}</div>
+                <div className="about-feature-item"><i className="fas fa-check-circle"></i> {isHindi ? 'सीधा फैक्ट्री भाव' : 'Direct Factory Pricing'}</div>
               </div>
-              <Link to="/about-us" className="btn btn-blue">Know More About Us</Link>
+              <Link to={getLocalizedPath('/about-us')} className="btn btn-blue">
+                {isHindi ? 'हमारे बारे में और जानें' : 'Know More About Us'}
+              </Link>
             </div>
           </div>
         </div>
@@ -561,8 +560,8 @@ export default function HomePage() {
       <section className="testimonials">
         <div className="container">
           <div className="section-title">
-            <h2>What Our Customers Say</h2>
-            <p>Join thousands of satisfied customers who trust KK COOLER JODHPUR for their cooling needs.</p>
+            <h2>{isHindi ? 'हमारे ग्राहक क्या कहते हैं' : 'What Our Customers Say'}</h2>
+            <p>{isHindi ? 'हजारों संतुष्ट परिवारों और व्यापारियों का भरोसा — के.के. कूलर जोधपुर' : 'Join thousands of satisfied customers who trust KK COOLER JODHPUR for their cooling needs.'}</p>
           </div>
           <div className="testimonials-grid">
             {testimonials.map((t, i) => (
@@ -587,8 +586,8 @@ export default function HomePage() {
       {/* ===== CTA ===== */}
       <section className="cta-section">
         <div className="container">
-          <h2>Ready to Beat the Heat?</h2>
-          <p>Get the best cooling solutions for your home, office, or shop at unbeatable prices.</p>
+          <h2>{isHindi ? 'भीषण गर्मी को मात देने के लिए तैयार हैं?' : 'Ready to Beat the Heat?'}</h2>
+          <p>{isHindi ? 'अपने घर, दुकान या कारखाने के लिए न्यूनतम फैक्ट्री दरों पर सबसे मजबूत कूलर्स पाएं।' : 'Get the best cooling solutions for your home, office, or shop at unbeatable prices.'}</p>
           <div className="cta-buttons">
             <a
               href="https://wa.me/919351359518?text=Hello%20KK%20COOLER%20JODHPUR,%20I%20want%20to%20send%20an%20enquiry%20for%20coolers"
@@ -598,9 +597,11 @@ export default function HomePage() {
               style={{ display: 'inline-flex', alignItems: 'center', gap: '8px' }}
             >
               <i className="fab fa-whatsapp" style={{ fontSize: '18px' }} />
-              Send Enquiry on WhatsApp
+              {isHindi ? 'व्हाट्सएप पर संपर्क करें' : 'Send Enquiry on WhatsApp'}
             </a>
-            <a href="tel:9351359518" className="btn" style={{ background: 'white', color: '#e84c0d', fontWeight: 700 }}>Call 9351359518</a>
+            <a href="tel:9351359518" className="btn" style={{ background: 'white', color: '#c0132a', fontWeight: 700 }}>
+              {isHindi ? 'फोन करें: 9351359518' : 'Call 9351359518'}
+            </a>
           </div>
         </div>
       </section>
