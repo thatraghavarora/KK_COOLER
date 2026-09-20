@@ -41,10 +41,10 @@ export default function TowerCoolersPage() {
 
                   <div style={{ display: 'flex', alignItems: 'baseline', gap: '8px', marginBottom: '12px' }}>
                     <span style={{ fontSize: '1.2rem', fontWeight: 800, color: 'var(--primary)' }}>
-                      {cooler.sellingPrice}
+                      ₹{cooler.sellingPrice?.toLocaleString('en-IN') || cooler.sellingPrice}
                     </span>
                     <span style={{ fontSize: '12px', color: '#94a3b8', textDecoration: 'line-through' }}>
-                      {cooler.mrp}
+                      MRP ₹{cooler.mrp?.toLocaleString('en-IN') || cooler.mrp}
                     </span>
                     <span style={{ fontSize: '11px', color: '#16a34a', fontWeight: 700, background: '#dcfce7', padding: '2px 6px', borderRadius: '4px' }}>
                       Factory Direct
@@ -52,7 +52,7 @@ export default function TowerCoolersPage() {
                   </div>
 
                   <ul className="product-specs" style={{ flex: 1, marginBottom: '16px' }}>
-                    {cooler.specs.slice(0, 4).map((s, j) => (
+                    {(cooler.specs || cooler.keyFeatures || []).slice(0, 4).map((s, j) => (
                       <li key={j} style={{ fontSize: '12px', marginBottom: '4px' }}><i className="fas fa-check-circle" style={{ color: 'var(--primary)', marginRight: '6px' }} />{s}</li>
                     ))}
                   </ul>

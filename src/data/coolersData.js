@@ -804,5 +804,17 @@ export const allCoolers = [
   },
 ]
 
+allCoolers.forEach(c => {
+  if (!c.specs) {
+    c.specs = [
+      `Capacity: ${c.capacity || c.tankCapacity || 'Standard'}`,
+      `Coverage: ${c.coolingCapacity ? c.coolingCapacity.split('(')[0].trim() : 'Up to 500 sq.ft'}`,
+      `Air Delivery: ${c.airDelivery || c.airThrow || 'High Air Flow'}`,
+      `Motor: ${c.motorPump ? c.motorPump.split('+')[0].trim() : '100% Pure Copper Motor'}`
+    ]
+  }
+})
+
 export const coolersData = allCoolers
 export default allCoolers
+
