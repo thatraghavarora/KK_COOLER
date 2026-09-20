@@ -50,9 +50,9 @@ export default function ProductDetailPage() {
       <section className="section" style={{ paddingTop: '30px', paddingBottom: '70px' }}>
         <div className="container">
           {/* Main Top Grid */}
-          <div style={{
+          <div className="product-detail-layout" style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
+            gridTemplateColumns: '1fr 1.15fr',
             gap: '40px',
             alignItems: 'start',
             marginBottom: '60px'
@@ -60,7 +60,7 @@ export default function ProductDetailPage() {
             {/* Left: Media Gallery & Video */}
             <div>
               {/* Main Media Box */}
-              <div style={{
+              <div className="product-detail-media-box" style={{
                 background: '#ffffff',
                 borderRadius: '16px',
                 border: '1px solid #e2e8f0',
@@ -133,7 +133,7 @@ export default function ProductDetailPage() {
               </div>
 
               {/* Thumbnail Selector Tabs */}
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '10px' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(68px, 1fr))', gap: '8px' }}>
                 {cooler.gallery.map((item, idx) => (
                   <button
                     key={idx}
@@ -245,7 +245,7 @@ export default function ProductDetailPage() {
               </div>
 
               {/* Title */}
-              <h1 style={{ fontSize: '2rem', fontWeight: 800, color: 'var(--dark)', marginBottom: '8px', lineHeight: '1.2' }}>
+              <h1 className="product-detail-title" style={{ fontSize: '2rem', fontWeight: 800, color: 'var(--dark)', marginBottom: '8px', lineHeight: '1.2' }}>
                 {cooler.name}
               </h1>
               <p style={{ fontSize: '14px', color: '#64748b', marginBottom: '18px', fontStyle: 'italic' }}>
@@ -341,7 +341,7 @@ export default function ProductDetailPage() {
                 </a>
 
                 {/* Secondary Row: Call & Request Quote */}
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+                <div className="product-cta-row" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
                   <a
                     href={`tel:${factoryDetails.phone}`}
                     style={{
@@ -452,14 +452,15 @@ export default function ProductDetailPage() {
             </div>
 
             {/* Spec Table */}
-            <div style={{
+            <div className="specs-table-wrapper" style={{
               background: '#ffffff',
               borderRadius: '16px',
-              overflow: 'hidden',
+              overflowX: 'auto',
+              WebkitOverflowScrolling: 'touch',
               boxShadow: '0 6px 25px rgba(0,0,0,0.06)',
               border: '1px solid #e2e8f0'
             }}>
-              <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '14px' }}>
+              <table style={{ width: '100%', minWidth: '460px', borderCollapse: 'collapse', fontSize: '14px' }}>
                 <tbody>
                   {Object.entries(cooler.specsSheet).map(([key, val], idx) => (
                     <tr

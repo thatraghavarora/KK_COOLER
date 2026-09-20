@@ -74,7 +74,7 @@ export default function AboutPage() {
               </div>
 
               {/* Mission / Vision Cards */}
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', marginBottom: '25px' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '16px', marginBottom: '25px' }}>
                 <div className="mission-card" style={{ margin: 0 }}>
                   <h4><i className="fas fa-bullseye" style={{ color: 'var(--accent)', marginRight: '8px' }}></i> Our Mission</h4>
                   <p>To provide heavy-duty, high-capacity, and energy-efficient desert coolers directly from our factory floor to homes and industries across Rajasthan without middleman costs.</p>

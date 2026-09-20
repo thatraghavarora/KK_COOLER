@@ -5,6 +5,7 @@ export default function FloatingWhatsApp() {
       target="_blank"
       rel="noopener noreferrer"
       aria-label="Enquire on WhatsApp"
+      className="floating-whatsapp-btn"
       style={{
         position: 'fixed',
         bottom: '25px',

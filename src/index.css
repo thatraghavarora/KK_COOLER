@@ -1554,21 +1554,29 @@ h1, h2, h3, h4, h5 {
   color: var(--accent);
 }
 
-/* ========== RESPONSIVE ========== */
+/* ========== RESPONSIVE DESIGN SYSTEM ========== */
+
+/* Tablet (max-width: 1024px) */
 @media (max-width: 1024px) {
+  .container {
+    padding: 0 20px;
+  }
+
   .features-grid,
   .stats-grid {
     grid-template-columns: repeat(2, 1fr);
   }
 
-  .products-grid {
+  .products-grid,
+  .product-list-grid {
     grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
   }
 
   .about-grid,
   .about-full-grid {
     grid-template-columns: 1fr;
-    gap: 40px;
+    gap: 35px;
   }
 
   .footer-grid {
@@ -1577,48 +1585,183 @@ h1, h2, h3, h4, h5 {
   }
 }
 
+/* Mobile Landscape & Tablet Portrait (max-width: 768px) */
 @media (max-width: 768px) {
-  .header-top-bar { display: none; }
+  .header-top-bar {
+    display: none;
+  }
 
-  .desktop-nav { display: none; }
+  .main-header {
+    padding: 12px 0;
+  }
 
-  .hamburger { display: flex; }
+  .logo-text .brand {
+    font-size: 1.35rem;
+  }
 
-  .mobile-nav { display: block; }
+  .desktop-nav {
+    display: none;
+  }
 
-  .hero { height: 480px; }
-  .hero-content h1 { font-size: 2rem; }
-  .hero-content { margin-left: 20px; }
+  .hamburger {
+    display: flex;
+  }
 
-  .features-grid { grid-template-columns: repeat(2, 1fr); }
+  .mobile-nav {
+    display: block;
+  }
+
+  .hero,
+  .hero-video-section {
+    height: 55vh;
+    min-height: 320px;
+    max-height: 480px;
+  }
+
+  .section {
+    padding: 50px 0;
+  }
+
+  .section-title {
+    margin-bottom: 35px;
+  }
+
+  .section-title h2 {
+    font-size: 1.65rem;
+  }
+
+  .features-grid {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
 
   .products-grid,
   .product-list-grid,
   .testimonials-grid {
     grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .product-card-img {
+    height: 210px;
   }
 
   .contact-grid {
     grid-template-columns: 1fr;
   }
 
-  .form-row { grid-template-columns: 1fr; }
+  .form-row {
+    grid-template-columns: 1fr;
+  }
 
-  .enquiry-wrap { padding: 30px 20px; }
+  .enquiry-wrap {
+    padding: 25px 16px;
+  }
 
-  .footer-grid { grid-template-columns: 1fr; }
+  .footer-grid {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
 
-  .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 20px; }
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+  }
 
-  .about-features { grid-template-columns: 1fr; }
+  .about-features {
+    grid-template-columns: 1fr;
+  }
 
-  .hero-arrow { display: none; }
+  .hero-arrow {
+    display: none;
+  }
+
+  /* Product Detail Page Responsive */
+  .product-detail-layout {
+    grid-template-columns: 1fr !important;
+    gap: 25px !important;
+  }
+
+  .product-detail-media-box {
+    height: 320px !important;
+  }
+
+  .product-detail-title {
+    font-size: 1.55rem !important;
+  }
+
+  .specs-table-wrapper {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    width: 100%;
+  }
+
+  .specs-table-wrapper table {
+    min-width: 480px;
+  }
 }
 
+/* Small Phones (max-width: 480px) */
 @media (max-width: 480px) {
+  .container {
+    padding: 0 15px;
+  }
+
+  .logo-text .brand {
+    font-size: 1.2rem;
+  }
+
+  .hero,
+  .hero-video-section {
+    height: 48vh;
+    min-height: 280px;
+  }
+
   .features-grid,
-  .stats-grid { grid-template-columns: 1fr; }
-  .hero-content h1 { font-size: 1.7rem; }
-  .hero-buttons { flex-direction: column; }
-  .section { padding: 55px 0; }
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .section {
+    padding: 40px 0;
+  }
+
+  .section-title h2 {
+    font-size: 1.45rem;
+  }
+
+  .product-card-img {
+    height: 190px;
+  }
+
+  .product-card-body {
+    padding: 16px 14px;
+  }
+
+  .product-detail-media-box {
+    height: 260px !important;
+  }
+
+  .product-detail-title {
+    font-size: 1.35rem !important;
+  }
+
+  .floating-whatsapp-btn {
+    width: 50px !important;
+    height: 50px !important;
+    font-size: 26px !important;
+    bottom: 16px !important;
+    right: 16px !important;
+  }
+
+  .cta-buttons {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .cta-buttons .btn {
+    width: 100%;
+    text-align: center;
+    justify-content: center;
+  }
 }

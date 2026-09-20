@@ -137,13 +137,13 @@ export default function Header() {
           <i className="fas fa-times"></i>
         </button>
         <ul>
-          <li><Link to="/"><span>Home</span></Link></li>
-          <li><Link to="/all-coolers"><span>All Coolers</span></Link></li>
-          <li><Link to="/personal-coolers"><span>Personal Coolers</span></Link></li>
-          <li><Link to="/commercial-cooler"><span>Commercial Coolers</span></Link></li>
-          <li><Link to="/tower-coolers"><span>Tower Coolers</span></Link></li>
-          <li><Link to="/about-us"><span>About Us</span></Link></li>
-          <li><Link to="/contact-us"><span>Contact Us</span></Link></li>
+          <li><Link to="/" onClick={() => setMobileOpen(false)}><span>Home</span></Link></li>
+          <li><Link to="/all-coolers" onClick={() => setMobileOpen(false)}><span>All Coolers</span></Link></li>
+          <li><Link to="/personal-coolers" onClick={() => setMobileOpen(false)}><span>Personal Coolers</span></Link></li>
+          <li><Link to="/commercial-cooler" onClick={() => setMobileOpen(false)}><span>Commercial Coolers</span></Link></li>
+          <li><Link to="/tower-coolers" onClick={() => setMobileOpen(false)}><span>Tower Coolers</span></Link></li>
+          <li><Link to="/about-us" onClick={() => setMobileOpen(false)}><span>About Us</span></Link></li>
+          <li><Link to="/contact-us" onClick={() => setMobileOpen(false)}><span>Contact Us</span></Link></li>
           <li>
             <a
               href="https://wa.me/919351359518?text=Hello%20KK%20COOLER%20JODHPUR,%20I%20want%20to%20make%20an%20enquiry"
