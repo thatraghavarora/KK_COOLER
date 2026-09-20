@@ -62,6 +62,10 @@ function App() {
             <Route path="/in/iron" element={<IronPage />} />
             <Route path="/in/enquiry" element={<EnquiryPage />} />
             <Route path="/in/contact-us" element={<ContactPage />} />
+
+            {/* Fallback routes */}
+            <Route path="/in/*" element={<HomePage />} />
+            <Route path="*" element={<HomePage />} />
           </Routes>
         </main>
         <FloatingWhatsApp />
