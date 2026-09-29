@@ -56,17 +56,30 @@ export default function PersonalCoolersPage() {
                     {cooler.highlight}
                   </p>
 
-                  <div style={{ display: 'flex', alignItems: 'baseline', gap: '8px', marginBottom: '12px' }}>
-                    <span style={{ fontSize: '1.2rem', fontWeight: 800, color: 'var(--primary)' }}>
-                      ₹{cooler.sellingPrice?.toLocaleString('en-IN') || cooler.sellingPrice}
-                    </span>
-                    <span style={{ fontSize: '12px', color: '#94a3b8', textDecoration: 'line-through' }}>
-                      MRP ₹{cooler.mrp?.toLocaleString('en-IN') || cooler.mrp}
-                    </span>
-                    <span style={{ fontSize: '11px', color: '#16a34a', fontWeight: 700, background: '#dcfce7', padding: '2px 6px', borderRadius: '4px' }}>
-                      {isHindi ? 'फैक्ट्री रेट' : 'Factory Direct'}
-                    </span>
-                  </div>
+                  {cooler.priceOnRequest || cooler.sellingPrice == null ? (
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '12px', flexWrap: 'wrap' }}>
+                      <span style={{ fontSize: '1.05rem', fontWeight: 800, color: 'var(--primary)' }}>
+                        {isHindi ? 'भाव हेतु संपर्क करें' : 'Contact for Best Price'}
+                      </span>
+                      <span style={{ fontSize: '11px', color: '#16a34a', fontWeight: 700, background: '#dcfce7', padding: '2px 6px', borderRadius: '4px' }}>
+                        {isHindi ? 'होलसेल रेट' : 'Wholesale Rates'}
+                      </span>
+                    </div>
+                  ) : (
+                    <div style={{ display: 'flex', alignItems: 'baseline', gap: '8px', marginBottom: '12px' }}>
+                      <span style={{ fontSize: '1.2rem', fontWeight: 800, color: 'var(--primary)' }}>
+                        ₹{cooler.sellingPrice?.toLocaleString('en-IN')}
+                      </span>
+                      {cooler.mrp ? (
+                        <span style={{ fontSize: '12px', color: '#94a3b8', textDecoration: 'line-through' }}>
+                          MRP ₹{cooler.mrp?.toLocaleString('en-IN')}
+                        </span>
+                      ) : null}
+                      <span style={{ fontSize: '11px', color: '#16a34a', fontWeight: 700, background: '#dcfce7', padding: '2px 6px', borderRadius: '4px' }}>
+                        {isHindi ? 'फैक्ट्री रेट' : 'Factory Direct'}
+                      </span>
+                    </div>
+                  )}
 
                   <ul className="product-specs" style={{ flex: 1, marginBottom: '16px' }}>
                     {(cooler.specs || cooler.keyFeatures || []).slice(0, 4).map((s, j) => (

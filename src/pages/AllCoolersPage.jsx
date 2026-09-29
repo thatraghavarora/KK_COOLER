@@ -197,9 +197,9 @@ export default function AllCoolersPage() {
                   {/* Image Container */}
                   <div
                     className="product-card-img"
-                    style={{
-                      background: '#ffffff',
-                      height: '240px',
+                      style={{
+                        background: '#ffffff',
+                        height: '300px',
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
@@ -280,18 +280,31 @@ export default function AllCoolersPage() {
                       {cooler.highlight}
                     </p>
 
-                    {/* Pricing */}
-                    <div style={{ display: 'flex', alignItems: 'baseline', gap: '8px', marginBottom: '12px' }}>
-                      <span style={{ fontSize: '1.2rem', fontWeight: 800, color: 'var(--primary)' }}>
-                        ₹{cooler.sellingPrice?.toLocaleString('en-IN') || cooler.sellingPrice}
-                      </span>
-                      <span style={{ fontSize: '12px', color: '#94a3b8', textDecoration: 'line-through' }}>
-                        MRP ₹{cooler.mrp?.toLocaleString('en-IN') || cooler.mrp}
-                      </span>
-                      <span style={{ fontSize: '11px', color: '#16a34a', fontWeight: 700, background: '#dcfce7', padding: '2px 6px', borderRadius: '4px' }}>
-                        {isHindi ? 'फैक्ट्री रेट' : 'Factory Direct'}
-                      </span>
-                    </div>
+                    {/* Pricing — catalog has no printed prices */}
+                    {cooler.priceOnRequest || cooler.sellingPrice == null ? (
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '12px', flexWrap: 'wrap' }}>
+                        <span style={{ fontSize: '1.05rem', fontWeight: 800, color: 'var(--primary)' }}>
+                          {isHindi ? 'भाव हेतु संपर्क करें' : 'Contact for Best Price'}
+                        </span>
+                        <span style={{ fontSize: '11px', color: '#16a34a', fontWeight: 700, background: '#dcfce7', padding: '2px 6px', borderRadius: '4px' }}>
+                          {isHindi ? 'होलसेल रेट' : 'Wholesale Rates'}
+                        </span>
+                      </div>
+                    ) : (
+                      <div style={{ display: 'flex', alignItems: 'baseline', gap: '8px', marginBottom: '12px' }}>
+                        <span style={{ fontSize: '1.2rem', fontWeight: 800, color: 'var(--primary)' }}>
+                          ₹{cooler.sellingPrice?.toLocaleString('en-IN')}
+                        </span>
+                        {cooler.mrp ? (
+                          <span style={{ fontSize: '12px', color: '#94a3b8', textDecoration: 'line-through' }}>
+                            MRP ₹{cooler.mrp?.toLocaleString('en-IN')}
+                          </span>
+                        ) : null}
+                        <span style={{ fontSize: '11px', color: '#16a34a', fontWeight: 700, background: '#dcfce7', padding: '2px 6px', borderRadius: '4px' }}>
+                          {isHindi ? 'फैक्ट्री रेट' : 'Factory Direct'}
+                        </span>
+                      </div>
+                    )}
 
                     <ul className="product-specs" style={{ flex: 1, marginBottom: '16px' }}>
                       {(cooler.specs || cooler.keyFeatures || []).slice(0, 4).map((spec, i) => (
@@ -323,8 +336,8 @@ export default function AllCoolersPage() {
                           transition: 'all 0.2s'
                         }}
                       >
-                        <i className="fas fa-list-check" />
-                        {isHindi ? 'पूरी 23+ तकनीकी जानकारी देखें' : 'View Full Details & 23+ Specs'}
+                        <i className="fas fa-image" />
+                        {isHindi ? 'पोस्टर + पूरी जानकारी देखें' : 'View Poster & Full Details'}
                       </Link>
 
                       <div style={{ display: 'flex', gap: '8px' }}>
