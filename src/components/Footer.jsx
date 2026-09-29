@@ -85,7 +85,7 @@ export default function Footer() {
               </div>
               <div className="footer-contact-item">
                 <i className="fas fa-phone-alt"></i>
-                <span><a href="tel:9351359518" style={{ color: 'inherit', textDecoration: 'none' }}>+91 9351359518</a><br /><a href="tel:9760098098" style={{ color: 'inherit', textDecoration: 'none' }}>9760098098</a></span>
+                <span><a href="tel:9351359518" style={{ color: 'inherit', textDecoration: 'none' }}>+91 9351359518</a></span>
               </div>
               <div className="footer-contact-item">
                 <i className="fab fa-whatsapp" style={{ color: '#25D366' }}></i>

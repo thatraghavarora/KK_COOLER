@@ -37,7 +37,6 @@ const statsHi = [
 export default function HomePage() {
   const { isHindi, t, getLocalizedPath } = useLanguage()
   const [selectedType, setSelectedType] = useState('all')
-  const [heroIndex, setHeroIndex] = useState(0)
 
   const displayedCoolers = useMemo(() => {
     const list = selectedType === 'all'
@@ -48,11 +47,6 @@ export default function HomePage() {
 
   const features = isHindi ? featuresHi : featuresEn
   const stats = isHindi ? statsHi : statsEn
-  const hero = heroBanners[heroIndex]
-
-  const goHero = (dir) => {
-    setHeroIndex((prev) => (prev + dir + heroBanners.length) % heroBanners.length)
-  }
 
   return (
     <>
@@ -66,6 +60,7 @@ export default function HomePage() {
           muted
           playsInline
           preload="auto"
+          ref={(el) => { if (el) { el.muted = true; const p = el.play(); if (p) p.catch(() => {}); } }}
           style={{ width: '100%', height: 'auto', display: 'block', objectFit: 'contain', background: '#000', verticalAlign: 'top' }}
         />
       </section>

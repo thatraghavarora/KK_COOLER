@@ -90,7 +90,6 @@ export const factoryDetails = {
   address: 'KK COOLER, Bhadu Market, Aditya Nagar, Jodhpur, Rajasthan – 342001',
   landmark: 'Bhadu Market, Aditya Nagar',
   phone: '9351359518',
-  altPhone: '9760098098',
   email: 'info@kkcoolerjodhpur.com',
   website: 'www.kkcooler.in',
   whatsapp: '919351359518',

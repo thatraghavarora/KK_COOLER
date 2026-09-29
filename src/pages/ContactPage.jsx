@@ -62,7 +62,7 @@ export default function ContactPage() {
                 <div className="contact-icon"><i className="fas fa-phone-alt"></i></div>
                 <div className="contact-detail-text">
                   <div className="label">{t.contact.phoneTitle}</div>
-                  <div className="value"><a href="tel:9351359518" style={{ color: 'white' }}>+91 9351359518</a><br /><a href="tel:9760098098" style={{ color: 'white' }}>9760098098</a></div>
+                  <div className="value"><a href="tel:9351359518" style={{ color: 'white' }}>+91 9351359518</a></div>
                 </div>
               </div>
 
